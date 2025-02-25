@@ -1,46 +1,85 @@
 package splitmindq.caloriecounter.service.impl;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import splitmindq.caloriecounter.dao.InMemoryUserDAO;
+import splitmindq.caloriecounter.dao.InMemoryUserDao;
 import splitmindq.caloriecounter.model.User;
 import splitmindq.caloriecounter.service.UserService;
 
-import java.util.List;
-
+/**
+ * Реализация сервиса для работы с пользователями, использующая данные, хранящиеся в памяти.
+ * Реализует интерфейс {@link UserService} для управления пользователями.
+ */
 @Service
 @AllArgsConstructor
 public class InMemoryUsersServiceImpl implements UserService {
 
-    private final InMemoryUserDAO repository;
+  /**
+     * Репозиторий для работы с данными пользователей в памяти.
+     */
+  private final InMemoryUserDao repository;
 
-    @Override
+  /**
+     * Находит всех пользователей.
+     *
+     * @return список всех пользователей.
+     */
+  @Override
     public List<User> findAllUsers() {
-        return repository.findAllUsers();
+    return repository.findAllUsers();
     }
 
-    @Override
+  /**
+     * Сохраняет пользователя.
+     *
+     * @param user объект пользователя, который необходимо сохранить.
+     */
+  @Override
     public void saveUser(User user) {
-        repository.saveUser(user);
+    repository.saveUser(user);
     }
 
-    @Override
+  /**
+     * Находит пользователя по его адресу электронной почты.
+     *
+     * @param email электронная почта пользователя.
+     * @return пользователь с указанным адресом электронной почты.
+     */
+  @Override
     public User findUserByEmail(String email) {
-        return repository.findUserByEmail(email);
+    return repository.findUserByEmail(email);
     }
 
-    @Override
+  /**
+     * Обновляет информацию о пользователе.
+     *
+     * @param user объект пользователя с обновленными данными.
+     * @return обновленный объект пользователя.
+     */
+  @Override
     public User updateUser(User user) {
-        return repository.updateUser(user);
+    return repository.updateUser(user);
     }
 
-    @Override
+  /**
+     * Удаляет пользователя по адресу электронной почты.
+     *
+     * @param email электронная почта пользователя, которого необходимо удалить.
+     */
+  @Override
     public void deleteUser(String email) {
-        repository.deleteUser(email);
+    repository.deleteUser(email);
     }
 
-    @Override
+  /**
+     * Находит пользователей по полу.
+     *
+     * @param gender пол пользователей (может быть null, если не фильтровать по полу).
+     * @return список пользователей, соответствующих указанному полу.
+     */
+  @Override
     public List<User> findUsersByGender(String gender) {
-        return repository.findUsersByGender(gender);
+    return repository.findUsersByGender(gender);
     }
 }

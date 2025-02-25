@@ -1,25 +1,60 @@
 package splitmindq.caloriecounter.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import splitmindq.caloriecounter.model.User;
 
-import java.util.List;
 
+/**
+ * Интерфейс для сервиса, управляющего пользователями.
+ * Содержит методы для сохранения, поиска, обновления и удаления пользователей,
+ * а также для фильтрации пользователей по полу.
+ */
 @Service
 public interface UserService {
 
-   List<User> findAllUsers();
+  /**
+    * Находит всех пользователей.
+    *
+    * @return список всех пользователей.
+    */
+  List<User> findAllUsers();
 
-   void saveUser(User user);
+  /**
+    * Сохраняет пользователя.
+    *
+    * @param user объект пользователя, который необходимо сохранить.
+    */
+  void saveUser(User user);
 
-   User findUserByEmail(String email);
+  /**
+    * Находит пользователя по его адресу электронной почты.
+    *
+    * @param email электронная почта пользователя.
+    * @return пользователь с указанным адресом электронной почты.
+    */
+  User findUserByEmail(String email);
 
-   User updateUser(User user);
+  /**
+    * Обновляет информацию о пользователе.
+    *
+    * @param user объект пользователя с обновленными данными.
+    * @return обновленный объект пользователя.
+    */
+  User updateUser(User user);
 
-   void deleteUser(String email);
+  /**
+    * Удаляет пользователя по адресу электронной почты.
+    *
+    * @param email электронная почта пользователя, которого необходимо удалить.
+    */
+  void deleteUser(String email);
 
-   List<User> findUsersByGender(String gender);
-
+  /**
+    * Находит пользователей по полу.
+    *
+    * @param gender пол пользователей (может быть null, если не фильтровать по полу).
+    * @return список пользователей, соответствующих указанному полу.
+    */
+  List<User> findUsersByGender(String gender);
 }
-
-

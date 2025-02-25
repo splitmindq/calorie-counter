@@ -11,32 +11,32 @@ import java.util.stream.IntStream;
 @Repository
 public class InMemoryUserDAO {
 
-    private final List<User> USERS = new ArrayList<User>();
+    private final List<User> users = new ArrayList<User>();
 
     public List<User> findAllUsers() {
-        return USERS;
+        return users;
     }
 
     public void saveUser(User user) {
-        USERS.add(user);
+        users.add(user);
     }
 
 
     public User findUserByEmail(String email) {
-        return USERS.stream()
+        return users.stream()
                 .filter(element -> element.getEmail().equals(email))
                 .findFirst()
                 .orElse(null);
     }
 
     public User updateUser(User user) {
-        var userIndex = IntStream.range(0, USERS.size())
-                .filter(i -> USERS.get(i).getEmail().equals(user.getEmail()))
+        var userIndex = IntStream.range(0, users.size())
+                .filter(i -> users.get(i).getEmail().equals(user.getEmail()))
                 .findFirst()
                 .orElse(-1);
 
         if (userIndex != -1) {
-            USERS.set(userIndex, user);
+            users.set(userIndex, user);
             return user;
         }
         return null;
@@ -46,12 +46,12 @@ public class InMemoryUserDAO {
     public void deleteUser(String email) {
         var user = findUserByEmail(email);
         if (user != null) {
-            USERS.remove(user);
+            users.remove(user);
         }
     }
 
     public List<User> findUsersByGender(String gender) {
-        return USERS.stream()
+        return users.stream()
                 .filter(element -> element.getGender().equals(gender))
                 .collect(Collectors.toList());
 

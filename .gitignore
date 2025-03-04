@@ -11,7 +11,7 @@ src/test/java/splitmindq/caloriecounter/CalorieCounterApplicationTests.java
 mvnw.cmd
 mvnw
 pom.xml
-
+startjava_checks.xml
 
 ### STS ###
 .apt_generated

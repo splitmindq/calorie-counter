@@ -9,11 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class CalorieCounterApplication {
-  /**
-  * @param args аргументы командной строки.
-*/
-  public static void main(String[] args) {
-    SpringApplication.run(CalorieCounterApplication.class, args);
-}
-
+    public static void main(String[] args) {
+        SpringApplication.run(CalorieCounterApplication.class, args);
+    }
 }

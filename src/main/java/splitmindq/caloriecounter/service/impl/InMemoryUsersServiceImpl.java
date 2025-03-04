@@ -14,72 +14,78 @@ import splitmindq.caloriecounter.service.UserService;
 @Service
 @AllArgsConstructor
 public class InMemoryUsersServiceImpl implements UserService {
-
-  /**
+    /**
      * Репозиторий для работы с данными пользователей в памяти.
      */
-  private final InMemoryUserDao repository;
 
-  /**
+    private final InMemoryUserDao repository;
+
+    /**
      * Находит всех пользователей.
      *
      * @return список всех пользователей.
      */
-  @Override
+
+    @Override
     public List<User> findAllUsers() {
-    return repository.findAllUsers();
+        return repository.findAllUsers();
     }
 
-  /**
+    /**
      * Сохраняет пользователя.
      *
      * @param user объект пользователя, который необходимо сохранить.
      */
-  @Override
+    @Override
     public void saveUser(User user) {
-    repository.saveUser(user);
+        repository.saveUser(user);
     }
 
-  /**
+    /**
      * Находит пользователя по его адресу электронной почты.
      *
-     * @param email электронная почта пользователя.
+     * @param id электронная почта пользователя.
      * @return пользователь с указанным адресом электронной почты.
      */
-  @Override
-    public User findUserByEmail(String email) {
-    return repository.findUserByEmail(email);
+    @Override
+    public User findUserById(Integer id) {
+        return repository.findUserById(id);
     }
 
-  /**
+    /**
      * Обновляет информацию о пользователе.
      *
      * @param user объект пользователя с обновленными данными.
      * @return обновленный объект пользователя.
      */
-  @Override
+    @Override
     public User updateUser(User user) {
-    return repository.updateUser(user);
+        return repository.updateUser(user);
     }
 
-  /**
+    /**
      * Удаляет пользователя по адресу электронной почты.
      *
-     * @param email электронная почта пользователя, которого необходимо удалить.
+     * @param id id пользователя, которого необходимо удалить.
      */
-  @Override
-    public void deleteUser(String email) {
-    repository.deleteUser(email);
+    @Override
+    public void deleteUser(Integer id) {
+        repository.deleteUser(id);
     }
 
-  /**
+    /**
      * Находит пользователей по полу.
      *
      * @param gender пол пользователей (может быть null, если не фильтровать по полу).
      * @return список пользователей, соответствующих указанному полу.
      */
-  @Override
+    @Override
     public List<User> findUsersByGender(String gender) {
-    return repository.findUsersByGender(gender);
+        return repository.findUsersByGender(gender);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return repository.findUserByEmail(email);
     }
 }

@@ -12,49 +12,50 @@ import splitmindq.caloriecounter.model.User;
  */
 @Service
 public interface UserService {
-
-  /**
+    /**
     * Находит всех пользователей.
     *
     * @return список всех пользователей.
     */
-  List<User> findAllUsers();
+    List<User> findAllUsers();
 
-  /**
+    /**
     * Сохраняет пользователя.
     *
     * @param user объект пользователя, который необходимо сохранить.
     */
-  void saveUser(User user);
+    void saveUser(User user);
 
-  /**
+    /**
     * Находит пользователя по его адресу электронной почты.
     *
-    * @param email электронная почта пользователя.
+    * @param id электронная почта пользователя.
     * @return пользователь с указанным адресом электронной почты.
     */
-  User findUserByEmail(String email);
+    User findUserById(Integer id);
 
-  /**
+    /**
     * Обновляет информацию о пользователе.
     *
     * @param user объект пользователя с обновленными данными.
     * @return обновленный объект пользователя.
     */
-  User updateUser(User user);
+    User updateUser(User user);
 
-  /**
+    /**
     * Удаляет пользователя по адресу электронной почты.
     *
-    * @param email электронная почта пользователя, которого необходимо удалить.
+    * @param id электронная почта пользователя, которого необходимо удалить.
     */
-  void deleteUser(String email);
+    void deleteUser(Integer id);
 
-  /**
+    /**
     * Находит пользователей по полу.
     *
     * @param gender пол пользователей (может быть null, если не фильтровать по полу).
     * @return список пользователей, соответствующих указанному полу.
     */
-  List<User> findUsersByGender(String gender);
+    List<User> findUsersByGender(String gender);
+
+    User findUserByEmail(String email);
 }

@@ -10,39 +10,40 @@ import lombok.Data;
 @Data
 @Builder
 public class User {
+    private Integer id;
 
-  /**
+    /**
      * Имя пользователя.
      */
-  private String firstName;
+    private String firstName;
 
-  /**
+    /**
      * Фамилия пользователя.
      */
-  private String lastName;
+    private String lastName;
 
-  /**
+    /**
      * Возраст пользователя.
      */
-  private int age;
+    private int age;
 
-  /**
+    /**
      * Пол пользователя.
      */
-  private String gender;
+    private String gender;
 
-  /**
+    /**
      * Адрес электронной почты пользователя.
      */
-  private String email;
+    private String email;
 
-  /**
+    /**
      * Вес пользователя (в килограммах).
      */
-  private int weight;
+    private int weight;
 
-  /**
+    /**
      * Рост пользователя (в сантиметрах).
      */
-  private int height;
+    private int height;
 }

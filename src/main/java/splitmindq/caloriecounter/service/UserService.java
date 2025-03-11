@@ -32,7 +32,7 @@ public interface UserService {
     * @param id электронная почта пользователя.
     * @return пользователь с указанным адресом электронной почты.
     */
-    User findUserById(Integer id);
+    User findUserById(Long id);
 
     /**
     * Обновляет информацию о пользователе.
@@ -40,14 +40,14 @@ public interface UserService {
     * @param user объект пользователя с обновленными данными.
     * @return обновленный объект пользователя.
     */
-    User updateUser(User user);
+    User updateUser(User user); // Изменено
 
     /**
     * Удаляет пользователя по адресу электронной почты.
     *
     * @param id электронная почта пользователя, которого необходимо удалить.
     */
-    void deleteUser(Integer id);
+    void deleteUser(Long id);
 
     /**
     * Находит пользователей по полу.
@@ -58,4 +58,6 @@ public interface UserService {
     List<User> findUsersByGender(String gender);
 
     User findUserByEmail(String email);
+
+    void deleteUserByEmail(String email);
 }

@@ -38,7 +38,7 @@ public class InMemoryUserDao {
      * @return найденный пользователь или null, если не найден
      */
 
-    public User findUserById(Integer id) {
+    public User findUserById(Long id) {
         return users.stream()
                 .filter(element -> element.getId().equals(id))
                 .findFirst()
@@ -65,11 +65,11 @@ public class InMemoryUserDao {
     }
 
     /**
-     * Удаляет пользователя по email.
+     * Удаляет пользователя по id.
      *
      * @param id id пользователя
      */
-    public void deleteUser(Integer id) {
+    public void deleteUser(Long id) {
         var user = findUserById(id);
         if (user != null) {
             users.remove(user);
@@ -96,5 +96,12 @@ public class InMemoryUserDao {
                 .filter(user -> user.getEmail().equals(email))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void deleteUserByEmail(String email) {
+        var user = findUserByEmail(email);
+        if (user != null) {
+            users.remove(user);
+        }
     }
 }

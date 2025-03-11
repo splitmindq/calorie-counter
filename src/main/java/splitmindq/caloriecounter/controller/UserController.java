@@ -52,13 +52,13 @@ public class UserController {
     }
 
     /**
-     * Поиск пользователя по его email.
+     * Поиск пользователя по его id.
      *
-     * @param id email пользователя, которого нужно найти
+     * @param id пользователя, которого нужно найти
      * @return найденный пользователь
      */
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Integer id) {
+    public ResponseEntity<User> findById(@PathVariable Long id) {
         User user = userService.findUserById(id);
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -82,12 +82,12 @@ public class UserController {
     }
 
     /**
-     * Удаление пользователя по email.
+     * Удаление пользователя по id.
      *
-     * @param id email пользователя, которого нужно удалить
+     * @param id id пользователя, которого нужно удалить
      */
     @DeleteMapping("delete_user/{id}")
-    public void deleteUser(@PathVariable Integer id) {
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
 
@@ -104,6 +104,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(users);
+    }
+
+    @DeleteMapping("delete_user_by_email")
+    public void deleteUserByEmail(@RequestParam String email) {
+        userService.deleteUserByEmail(email);
     }
 }
 

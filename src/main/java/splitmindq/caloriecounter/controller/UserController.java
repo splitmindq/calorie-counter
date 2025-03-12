@@ -1,7 +1,9 @@
 package splitmindq.caloriecounter.controller;
 
 import java.util.List;
+
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import splitmindq.caloriecounter.excpetions.ResourceNotFoundException;
 import splitmindq.caloriecounter.model.User;
 import splitmindq.caloriecounter.service.UserService;
 
@@ -44,8 +46,15 @@ public class UserController {
      */
     @PostMapping("save_user")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
-        userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        try {
+            userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully.");
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email is already in use.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
+        }
     }
 
     /**
@@ -63,20 +72,22 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    /**
-     * Обновление данных пользователя.
-     *
-     * @param user объект пользователя с обновленными данными
-     * @return обновленный пользователь
-     */
-//    @PutMapping("update_user")
-//    public ResponseEntity<User> updateUser(@RequestBody User user) {
-//        User userToUpdate = userService.updateUser(user);
-//        if (userToUpdate == null) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//        return ResponseEntity.ok(userToUpdate);
-//    }
+    @PutMapping("update_user/{id}")
+    public ResponseEntity<String> updateUser(
+            @PathVariable Long id,
+            @RequestBody User updatedUser) {
+        try {
+            userService.updateUser(id, updatedUser);
+            return ResponseEntity.status(HttpStatus.OK).body("User updated successfully.");
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email is already in use.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
+        }
+    }
 
     /**
      * Удаление пользователя по id.
@@ -89,12 +100,6 @@ public class UserController {
     }
 }
 
-    /**
-     * Поиск пользователей по полу.
-     *
-     * @param gender пол, по которому осуществляется фильтрация
-     * @return список пользователей, соответствующих фильтру
-     */
 //    @GetMapping("/filter")
 //    public ResponseEntity<List<User>> findUsersByGender(@RequestParam(required = false) String gender) {
 //        List<User> users = userService.findUsersByGender(gender);
@@ -108,6 +113,6 @@ public class UserController {
 //    public void deleteUserByEmail(@RequestParam String email) {
 //        userService.deleteUserByEmail(email);
 //    }
-//}
+// }
 
 

@@ -12,7 +12,7 @@ public interface FoodService {
 
     List<Food> getAllFood();
 
-    //    void updateFood(Food food);
+    void updateFood(Long id, Food food);
 
     void deleteFood(Long id);
 }

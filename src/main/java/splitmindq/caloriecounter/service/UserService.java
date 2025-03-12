@@ -40,10 +40,9 @@ public interface UserService {
     /**
     * Обновляет информацию о пользователе.
     *
-    * @param user объект пользователя с обновленными данными.
-    * @return обновленный объект пользователя.
+    * @param  updatedUser,id пользователя с обновленными данными.
     */
-//    User updateUser(User user); // Изменено
+    void updateUser(Long id, User updatedUser);
 
     /**
     * Удаляет пользователя по адресу электронной почты.

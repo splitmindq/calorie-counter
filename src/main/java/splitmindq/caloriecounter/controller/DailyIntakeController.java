@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import splitmindq.caloriecounter.excpetions.ResourceNotFoundException;
 import splitmindq.caloriecounter.model.DailyIntake;
 import splitmindq.caloriecounter.service.DailyIntakeService;
 
@@ -44,16 +45,21 @@ public class DailyIntakeController {
     public DailyIntake getDailyIntake(@PathVariable Long id) {
         return dailyIntakeService.getDailyIntakeById(id);
     }
-//
-//    @PutMapping("/update_intake")
-//    public ResponseEntity<Void> updateDailyIntake(
-//            @RequestParam Long id,
-//            @RequestParam Long userId,
-//            @RequestParam List<Long> foodIds) {
-//        System.out.println("Метод updateDailyIntake вызван с id: " + id + ", userId: " + userId +
-//                ", foodIds: " + foodIds);
-//        return ResponseEntity.ok().build();
-//    }
+
+    @PutMapping("update_intake/{id}")
+    public ResponseEntity<String> updateDailyIntake(
+            @PathVariable Long id,
+            @RequestBody DailyIntake updatedDailyIntake) {
+        try {
+            dailyIntakeService.updateDailyIntake(id, updatedDailyIntake);
+            return ResponseEntity.status(HttpStatus.OK).body("Daily intake updated successfully.");
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Daily intake not found.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
+        }
+    }
 
     @DeleteMapping("delete_intake/{id}")
     public void deleteDailyIntake(@PathVariable Long id) {

@@ -12,7 +12,7 @@ public interface DailyIntakeService {
 
     DailyIntake getDailyIntakeById(Long id);
 
-    //    void updateDailyIntake(DailyIntake dailyIntake);
+    void updateDailyIntake(Long id, DailyIntake dailyIntake);
 
     void deleteDailyIntake(Long id);
 }

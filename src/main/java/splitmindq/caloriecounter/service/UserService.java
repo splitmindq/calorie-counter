@@ -1,6 +1,9 @@
 package splitmindq.caloriecounter.service;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import splitmindq.caloriecounter.model.User;
 
@@ -24,7 +27,7 @@ public interface UserService {
     *
     * @param user объект пользователя, который необходимо сохранить.
     */
-    void saveUser(User user);
+    void createUser(User user);
 
     /**
     * Находит пользователя по его адресу электронной почты.
@@ -40,7 +43,7 @@ public interface UserService {
     * @param user объект пользователя с обновленными данными.
     * @return обновленный объект пользователя.
     */
-    User updateUser(User user); // Изменено
+//    User updateUser(User user); // Изменено
 
     /**
     * Удаляет пользователя по адресу электронной почты.
@@ -49,15 +52,15 @@ public interface UserService {
     */
     void deleteUser(Long id);
 
-    /**
-    * Находит пользователей по полу.
-    *
-    * @param gender пол пользователей (может быть null, если не фильтровать по полу).
-    * @return список пользователей, соответствующих указанному полу.
-    */
-    List<User> findUsersByGender(String gender);
-
-    User findUserByEmail(String email);
-
-    void deleteUserByEmail(String email);
+    //    /**
+    //    * Находит пользователей по полу.
+    //    *
+    //    * @param gender пол пользователей (может быть null, если не фильтровать по полу).
+    //    * @return список пользователей, соответствующих указанному полу.
+    //    */
+    //    List<User> findUsersByGender(String gender);
+    //
+    //    User findUserByEmail(String email);
+    //
+    //    void deleteUserByEmail(String email);
 }

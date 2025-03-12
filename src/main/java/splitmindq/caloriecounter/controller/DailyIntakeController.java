@@ -28,9 +28,11 @@ public class DailyIntakeController {
     }
 
     @PostMapping("create_intake")
-    public ResponseEntity<String> createDailyIntake(@RequestBody DailyIntake dailyIntake) {
+    public ResponseEntity<String> createDailyIntake(
+            @RequestParam Long userId,
+            @RequestParam List<Long> foodIds) {
         try {
-            dailyIntakeService.createDailyIntake(dailyIntake);
+            dailyIntakeService.createDailyIntake(userId, foodIds);
             return ResponseEntity.status(HttpStatus.CREATED).body("Daily intake created successfully.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -42,16 +44,16 @@ public class DailyIntakeController {
     public DailyIntake getDailyIntake(@PathVariable Long id) {
         return dailyIntakeService.getDailyIntakeById(id);
     }
-
-    @PutMapping("/update_intake")
-    public ResponseEntity<Void> updateDailyIntake(
-            @RequestParam Long id,
-            @RequestParam Long userId,
-            @RequestParam List<Long> foodIds) {
-        System.out.println("Метод updateDailyIntake вызван с id: " + id + ", userId: " + userId +
-                ", foodIds: " + foodIds);
-        return ResponseEntity.ok().build();
-    }
+//
+//    @PutMapping("/update_intake")
+//    public ResponseEntity<Void> updateDailyIntake(
+//            @RequestParam Long id,
+//            @RequestParam Long userId,
+//            @RequestParam List<Long> foodIds) {
+//        System.out.println("Метод updateDailyIntake вызван с id: " + id + ", userId: " + userId +
+//                ", foodIds: " + foodIds);
+//        return ResponseEntity.ok().build();
+//    }
 
     @DeleteMapping("delete_intake/{id}")
     public void deleteDailyIntake(@PathVariable Long id) {

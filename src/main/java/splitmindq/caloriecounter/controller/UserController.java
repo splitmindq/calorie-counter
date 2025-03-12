@@ -44,10 +44,7 @@ public class UserController {
      */
     @PostMapping("save_user")
     public ResponseEntity<String> saveUser(@RequestBody User user) {
-        if (userService.findUserByEmail(user.getEmail()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-        userService.saveUser(user);
+        userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -72,14 +69,14 @@ public class UserController {
      * @param user объект пользователя с обновленными данными
      * @return обновленный пользователь
      */
-    @PutMapping("update_user")
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        User userToUpdate = userService.updateUser(user);
-        if (userToUpdate == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(userToUpdate);
-    }
+//    @PutMapping("update_user")
+//    public ResponseEntity<User> updateUser(@RequestBody User user) {
+//        User userToUpdate = userService.updateUser(user);
+//        if (userToUpdate == null) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//        return ResponseEntity.ok(userToUpdate);
+//    }
 
     /**
      * Удаление пользователя по id.
@@ -90,6 +87,7 @@ public class UserController {
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
+}
 
     /**
      * Поиск пользователей по полу.
@@ -97,19 +95,19 @@ public class UserController {
      * @param gender пол, по которому осуществляется фильтрация
      * @return список пользователей, соответствующих фильтру
      */
-    @GetMapping("/filter")
-    public ResponseEntity<List<User>> findUsersByGender(@RequestParam(required = false) String gender) {
-        List<User> users = userService.findUsersByGender(gender);
-        if (users.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(users);
-    }
-
-    @DeleteMapping("delete_user_by_email")
-    public void deleteUserByEmail(@RequestParam String email) {
-        userService.deleteUserByEmail(email);
-    }
-}
+//    @GetMapping("/filter")
+//    public ResponseEntity<List<User>> findUsersByGender(@RequestParam(required = false) String gender) {
+//        List<User> users = userService.findUsersByGender(gender);
+//        if (users.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//        return ResponseEntity.ok(users);
+//    }
+//
+//    @DeleteMapping("delete_user_by_email")
+//    public void deleteUserByEmail(@RequestParam String email) {
+//        userService.deleteUserByEmail(email);
+//    }
+//}
 
 

@@ -13,6 +13,7 @@ mvnw
 pom.xml
 startjava_checks.xml
 docker-compose.yml
+db
 
 ### STS ###
 .apt_generated

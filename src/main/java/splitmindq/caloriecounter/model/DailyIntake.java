@@ -13,12 +13,17 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Data;
 
+/**
+ * Модель записи о ежедневном потреблении.
+ */
 @Data
 @Entity
+@Table(name = "daily_intakes")
 public class DailyIntake {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,13 +38,13 @@ public class DailyIntake {
     }
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
-            name = "meal_entries",
+            name = "daily_intake_food",
             joinColumns = @JoinColumn(name = "daily_intake_id"),
             inverseJoinColumns = @JoinColumn(name = "food_id")
     )

@@ -31,14 +31,14 @@ public class FoodController {
     }
 
     @GetMapping("/{id}")
-    public Food getFood(@PathVariable Long id) {
-        return foodService.getFood(id);
+    public Food getFoodById(@PathVariable Long id) {
+        return foodService.getFoodById(id);
     }
 
-    @PutMapping("update_food")
-    public void updateFood(@RequestBody Food food) {
-        foodService.updateFood(food);
-    }
+//    @PutMapping("update_food")
+//    public void updateFood(@RequestBody Food food) {
+//        foodService.updateFood(food);
+//    }
 
     @DeleteMapping("delete_food/{id}")
     public void deleteFood(@PathVariable Long id) {

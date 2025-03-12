@@ -1,13 +1,12 @@
 package splitmindq.caloriecounter.service.impl;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import splitmindq.caloriecounter.dao.FoodRepository;
 import splitmindq.caloriecounter.model.Food;
 import splitmindq.caloriecounter.service.FoodService;
-
-import java.util.List;
 
 @Primary
 @Service
@@ -21,18 +20,13 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Food getFood(Long id) {
+    public Food getFoodById(Long id) {
         return foodRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Food> getAllFood() {
         return foodRepository.findAll();
-    }
-
-    @Override
-    public void updateFood(Food food) {
-        foodRepository.save(food);
     }
 
     @Override

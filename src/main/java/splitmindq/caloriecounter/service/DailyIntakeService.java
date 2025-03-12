@@ -8,11 +8,11 @@ import splitmindq.caloriecounter.model.DailyIntake;
 public interface DailyIntakeService {
     List<DailyIntake> getAllDailyIntakes();
 
-    void createDailyIntake(DailyIntake dailyIntake);
+    void createDailyIntake(Long userId, List<Long> foodIds);
 
     DailyIntake getDailyIntakeById(Long id);
 
-    void updateDailyIntake(DailyIntake dailyIntake);
+    //    void updateDailyIntake(DailyIntake dailyIntake);
 
     void deleteDailyIntake(Long id);
 }

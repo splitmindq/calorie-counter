@@ -8,11 +8,11 @@ import splitmindq.caloriecounter.model.Food;
 public interface FoodService {
     void createFood(Food food);
 
-    Food getFood(Long id);
+    Food getFoodById(Long id);
 
     List<Food> getAllFood();
 
-    void updateFood(Food food);
+    //    void updateFood(Food food);
 
     void deleteFood(Long id);
 }

@@ -1,7 +1,6 @@
 package splitmindq.caloriecounter.controller;
 
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -34,8 +33,12 @@ public class UserController {
      * @return список всех пользователей
      */
     @GetMapping
-    public List<User> findAllUsers() {
-        return userService.findAllUsers();
+    public ResponseEntity<List<User>> findAllUsers() {
+        List<User> users = userService.findAllUsers();
+        if (users.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     /**
@@ -95,8 +98,9 @@ public class UserController {
      * @param id id пользователя, которого нужно удалить
      */
     @DeleteMapping("delete_user/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
     }
 }
 

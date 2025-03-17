@@ -24,18 +24,32 @@ public class FoodController {
     private final FoodService foodService;
 
     @GetMapping
-    public List<Food> getFoods() {
-        return foodService.getAllFood();
+    public ResponseEntity<List<Food>> getFoods() {
+        List<Food> foods = foodService.getAllFood();
+        if (foods.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(foods, HttpStatus.OK);
     }
 
     @PostMapping("create_food")
-    public void createFood(@RequestBody Food food) {
+    public ResponseEntity<String> createFood(@RequestBody Food food) {
         foodService.createFood(food);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Food getFoodById(@PathVariable Long id) {
-        return foodService.getFoodById(id);
+    public ResponseEntity<Food> getFoodById(@PathVariable Long id) {
+        try {
+            Food food = foodService.getFoodById(id);
+            return new ResponseEntity<>(food, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("update_food/{id}")
@@ -54,7 +68,8 @@ public class FoodController {
     }
 
     @DeleteMapping("delete_food/{id}")
-    public void deleteFood(@PathVariable Long id) {
+    public ResponseEntity<String> deleteFood(@PathVariable Long id) {
         foodService.deleteFood(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Food deleted successfully.");
     }
 }

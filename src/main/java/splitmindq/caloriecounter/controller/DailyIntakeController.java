@@ -24,8 +24,12 @@ public class DailyIntakeController {
     private DailyIntakeService dailyIntakeService;
 
     @GetMapping
-    public List<DailyIntake> getAll() {
-        return dailyIntakeService.getAllDailyIntakes();
+    public ResponseEntity<List<DailyIntake>> getAll() {
+        List<DailyIntake> dailyIntakeList = dailyIntakeService.getAllDailyIntakes();
+        if (dailyIntakeList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(dailyIntakeList, HttpStatus.OK);
     }
 
     @PostMapping("create_intake")

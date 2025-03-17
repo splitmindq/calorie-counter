@@ -36,10 +36,9 @@ public class FoodServiceImpl implements FoodService {
         Food existingFood = foodRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Food not found with id: " + id));
 
-        if (!existingFood.getName().equals(updatedFood.getName())) {
-            if (foodRepository.existsByName(updatedFood.getName())) {
-                throw new DataIntegrityViolationException("Food with this name already exists.");
-            }
+        if (!existingFood.getName().equals(updatedFood.getName()) &&
+                foodRepository.existsByName(updatedFood.getName())) {
+            throw new DataIntegrityViolationException("Food with this name already exists.");
         }
 
         existingFood.setName(updatedFood.getName());

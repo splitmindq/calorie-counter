@@ -34,7 +34,7 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
 
         List<Food> foods = foodRepository.findAllById(foodIds);
         if (foods.isEmpty()) {
-            throw new RuntimeException("No foods found with ids: " + foodIds);
+            throw new ResourceNotFoundException("Food not found with id: " + foodIds);
         }
 
         DailyIntake dailyIntake = new DailyIntake();

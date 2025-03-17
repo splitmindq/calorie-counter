@@ -104,19 +104,3 @@ public class UserController {
     }
 }
 
-//    @GetMapping("/filter")
-//    public ResponseEntity<List<User>> findUsersByGender(@RequestParam(required = false) String gender) {
-//        List<User> users = userService.findUsersByGender(gender);
-//        if (users.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//        return ResponseEntity.ok(users);
-//    }
-//
-//    @DeleteMapping("delete_user_by_email")
-//    public void deleteUserByEmail(@RequestParam String email) {
-//        userService.deleteUserByEmail(email);
-//    }
-// }
-
-

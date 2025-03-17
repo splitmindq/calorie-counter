@@ -1,9 +1,7 @@
 package splitmindq.caloriecounter.service.impl;
 
 import jakarta.transaction.Transactional;
-
 import java.util.List;
-
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,10 +42,9 @@ public class UserServiceImpl implements UserService {
     public void updateUser(Long id, User updatedUser) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        if (!existingUser.getEmail().equals(updatedUser.getEmail())) {
-            if (userRepository.existsByEmail(updatedUser.getEmail())) {
-                throw new DataIntegrityViolationException("Email is already in use.");
-            }
+        if (!existingUser.getEmail().equals(updatedUser.getEmail()) &&
+                userRepository.existsByEmail(updatedUser.getEmail())) {
+            throw new DataIntegrityViolationException("Email is already in use.");
         }
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());

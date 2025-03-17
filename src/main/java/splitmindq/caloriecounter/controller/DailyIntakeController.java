@@ -46,8 +46,13 @@ public class DailyIntakeController {
     }
 
     @GetMapping("/{id}")
-    public DailyIntake getDailyIntake(@PathVariable Long id) {
-        return dailyIntakeService.getDailyIntakeById(id);
+    public ResponseEntity<DailyIntake> getDailyIntake(@PathVariable Long id) {
+        DailyIntake dailyIntake = dailyIntakeService.getDailyIntakeById(id);
+        if (dailyIntake == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return new ResponseEntity<>(dailyIntake, HttpStatus.OK);
+        }
     }
 
     @PutMapping("update_intake/{id}")
@@ -66,7 +71,15 @@ public class DailyIntakeController {
     }
 
     @DeleteMapping("delete_intake/{id}")
-    public void deleteDailyIntake(@PathVariable Long id) {
-        dailyIntakeService.deleteDailyIntake(id);
+    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+        try {
+            dailyIntakeService.deleteDailyIntake(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Daily intake deleted successfully.");
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Daily intake not found.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred: " + e.getMessage());
+        }
     }
 }

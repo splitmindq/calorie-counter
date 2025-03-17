@@ -71,15 +71,12 @@ public class DailyIntakeController {
     }
 
     @DeleteMapping("delete_intake/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
-        try {
-            dailyIntakeService.deleteDailyIntake(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Daily intake deleted successfully.");
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Daily intake not found.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred: " + e.getMessage());
+    public ResponseEntity<String> deleteDailyIntake(@PathVariable Long id) {
+        boolean isDeleted = dailyIntakeService.deleteDailyIntake(id);
+        if (isDeleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("DailyIntake not found.");
         }
     }
 }

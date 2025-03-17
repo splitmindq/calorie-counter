@@ -69,7 +69,11 @@ public class FoodController {
 
     @DeleteMapping("delete_food/{id}")
     public ResponseEntity<String> deleteFood(@PathVariable Long id) {
-        foodService.deleteFood(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Food deleted successfully.");
+        boolean isDeleted = foodService.deleteFood(id);
+        if (isDeleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Food not found.");
+        }
     }
 }

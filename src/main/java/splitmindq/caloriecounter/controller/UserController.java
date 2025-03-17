@@ -99,8 +99,12 @@ public class UserController {
      */
     @DeleteMapping("delete_user/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).body("User deleted successfully.");
+        boolean isDeleted = userService.deleteUser(id);
+        if (isDeleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); 
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
 

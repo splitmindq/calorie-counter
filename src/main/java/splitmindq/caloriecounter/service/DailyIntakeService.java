@@ -14,5 +14,5 @@ public interface DailyIntakeService {
 
     void updateDailyIntake(Long id, DailyIntake dailyIntake);
 
-    void deleteDailyIntake(Long id);
+    boolean deleteDailyIntake(Long id);
 }

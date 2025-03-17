@@ -51,7 +51,11 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void deleteFood(Long id) {
-        foodRepository.deleteById(id);
+    public boolean deleteFood(Long id) {
+        if (foodRepository.existsById(id)) {
+            foodRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

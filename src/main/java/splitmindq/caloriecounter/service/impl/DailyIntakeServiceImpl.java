@@ -63,7 +63,11 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
     }
 
     @Override
-    public void deleteDailyIntake(Long id) {
-        dailyIntakeRepository.deleteById(id);
+    public boolean deleteDailyIntake(Long id) {
+        if (dailyIntakeRepository.existsById(id)) {
+            dailyIntakeRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

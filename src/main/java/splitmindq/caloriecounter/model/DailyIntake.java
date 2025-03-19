@@ -43,9 +43,9 @@ public class DailyIntake {
     private User user;
 
     @OneToMany(mappedBy = "dailyIntake", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DailyIntakeFood> dailyIntakeFoods = new ArrayList<>(); // Инициализация списка
+    private List<DailyIntakeFood> dailyIntakeFoods;
 
     public DailyIntake() {
-        this.dailyIntakeFoods = new ArrayList<>(); // Дополнительная инициализация в конструкторе
+        this.dailyIntakeFoods = new ArrayList<>();
     }
 }

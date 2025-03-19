@@ -27,5 +27,5 @@ public class DailyIntakeFood {
     @JoinColumn(name = "food_id", nullable = false)
     private Food food;
 
-    private double weight; // вес продукта в граммах
+    private double weight;
 }

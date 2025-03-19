@@ -9,12 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 
@@ -42,11 +42,10 @@ public class DailyIntake {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "daily_intake_food",
-            joinColumns = @JoinColumn(name = "daily_intake_id"),
-            inverseJoinColumns = @JoinColumn(name = "food_id")
-    )
-    private List<Food> foods;
+    @OneToMany(mappedBy = "dailyIntake", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DailyIntakeFood> dailyIntakeFoods = new ArrayList<>(); // Инициализация списка
+
+    public DailyIntake() {
+        this.dailyIntakeFoods = new ArrayList<>(); // Дополнительная инициализация в конструкторе
+    }
 }

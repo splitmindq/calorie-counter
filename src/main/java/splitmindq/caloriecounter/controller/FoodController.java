@@ -69,11 +69,17 @@ public class FoodController {
 
     @DeleteMapping("delete_food/{id}")
     public ResponseEntity<String> deleteFood(@PathVariable Long id) {
-        boolean isDeleted = foodService.deleteFood(id);
-        if (isDeleted) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Food not found.");
+        try {
+            boolean isDeleted = foodService.deleteFood(id);
+            if (isDeleted) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Food not found.");
+            }
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Cannot delete food that is linked to daily intakes.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
     }
 }

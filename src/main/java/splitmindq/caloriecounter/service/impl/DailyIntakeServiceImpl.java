@@ -1,27 +1,34 @@
 package splitmindq.caloriecounter.service.impl;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import jakarta.annotation.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import splitmindq.caloriecounter.cache.DailyIntakeCache;
 import splitmindq.caloriecounter.dao.DailyIntakeRepository;
 import splitmindq.caloriecounter.dao.FoodRepository;
 import splitmindq.caloriecounter.dao.UserRepository;
+import splitmindq.caloriecounter.dto.DailyNutritionDto;
 import splitmindq.caloriecounter.excpetions.ResourceNotFoundException;
 import splitmindq.caloriecounter.model.*;
 import splitmindq.caloriecounter.requests.DailyIntakeRequest;
 import splitmindq.caloriecounter.requests.UpdateDailyIntakeRequest;
 import splitmindq.caloriecounter.service.DailyIntakeService;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class DailyIntakeServiceImpl implements DailyIntakeService {
     private final UserRepository userRepository;
     private final FoodRepository foodRepository;
     private final DailyIntakeRepository dailyIntakeRepository;
+    private final DailyIntakeCache dailyIntakeCache;
 
     @Override
     public List<DailyIntake> getAllDailyIntakes() {
@@ -29,37 +36,41 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
     }
 
     @Override
+    @Transactional
     public DailyIntake addFoodToDailyIntake(Long dailyIntakeId, Long foodId, double weight) {
-        // Находим прием пищи
+        // 1. Находим сущности
         DailyIntake dailyIntake = dailyIntakeRepository.findById(dailyIntakeId)
-                .orElseThrow(() -> new RuntimeException("DailyIntake not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("DailyIntake not found"));
 
-        // Находим продукт
         Food food = foodRepository.findById(foodId)
-                .orElseThrow(() -> new RuntimeException("Food not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Food not found"));
 
-        // Проверяем, есть ли уже такой продукт в приеме пищи
+        // 2. Обновляем данные
         Optional<DailyIntakeFood> existingEntry = dailyIntake.getDailyIntakeFoods().stream()
                 .filter(entry -> entry.getFood().getId().equals(foodId))
                 .findFirst();
 
         if (existingEntry.isPresent()) {
-            // Если продукт уже есть, увеличиваем его вес
-            DailyIntakeFood dailyIntakeFood = existingEntry.get();
-            dailyIntakeFood.setWeight(dailyIntakeFood.getWeight() + weight);
+            existingEntry.get().setWeight(existingEntry.get().getWeight() + weight);
         } else {
-            // Если продукта нет, создаем новую запись
-            DailyIntakeFood dailyIntakeFood = new DailyIntakeFood();
-            dailyIntakeFood.setDailyIntake(dailyIntake);
-            dailyIntakeFood.setFood(food);
-            dailyIntakeFood.setWeight(weight);
-
-            // Добавляем в список
-            dailyIntake.getDailyIntakeFoods().add(dailyIntakeFood);
+            DailyIntakeFood newEntry = new DailyIntakeFood();
+            newEntry.setDailyIntake(dailyIntake);
+            newEntry.setFood(food);
+            newEntry.setWeight(weight);
+            dailyIntake.getDailyIntakeFoods().add(newEntry);
         }
 
-        // Сохраняем изменения
+        evictDailyIntakeCache(dailyIntake);
+
         return dailyIntakeRepository.save(dailyIntake);
+    }
+
+    private void evictDailyIntakeCache(DailyIntake dailyIntake) {
+        String email = dailyIntake.getUser().getEmail();
+        LocalDate date = dailyIntake.getCreationDate();
+
+        dailyIntakeCache.evictIntakesWithDate(email, date);
+        dailyIntakeCache.evictNutritionData(email, date);
     }
 
     @Override
@@ -68,39 +79,30 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
         User user = userRepository.findById(dailyIntakeRequest.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Создаем новый прием пищи
         DailyIntake dailyIntake = new DailyIntake();
         dailyIntake.setUser(user);
 
-        // Используем Map для быстрого поиска продуктов по foodId
         Map<Long, DailyIntakeFood> foodMap = new HashMap<>();
 
-        // Обрабатываем каждый FoodEntry
         for (FoodEntry foodEntry : dailyIntakeRequest.getFoodEntries()) {
-            // Находим продукт
             Food food = foodRepository.findById(foodEntry.getFoodId())
                     .orElseThrow(() -> new RuntimeException("Food not found"));
 
-            // Проверяем, есть ли уже такой продукт в dailyIntake
             DailyIntakeFood existingEntry = foodMap.get(foodEntry.getFoodId());
 
             if (existingEntry != null) {
-                // Если продукт уже есть, увеличиваем его вес
                 existingEntry.setWeight(existingEntry.getWeight() + foodEntry.getWeight());
             } else {
-                // Если продукта нет, создаем новую запись
                 DailyIntakeFood dailyIntakeFood = new DailyIntakeFood();
                 dailyIntakeFood.setDailyIntake(dailyIntake);
                 dailyIntakeFood.setFood(food);
                 dailyIntakeFood.setWeight(foodEntry.getWeight());
 
-                // Добавляем в Map и в список
                 foodMap.put(foodEntry.getFoodId(), dailyIntakeFood);
                 dailyIntake.getDailyIntakeFoods().add(dailyIntakeFood);
             }
         }
 
-        // Сохраняем прием пищи
         dailyIntakeRepository.save(dailyIntake);
     }
 
@@ -111,29 +113,24 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
     }
 
     @Override
-    public void updateDailyIntake(Long id, UpdateDailyIntakeRequest request) throws ResourceNotFoundException {
-        // Находим прием пищи
+    public void updateDailyIntake(Long id, UpdateDailyIntakeRequest request)
+            throws ResourceNotFoundException {
         DailyIntake dailyIntake = dailyIntakeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("DailyIntake not found"));
 
-        // Создаем Map для быстрого поиска продуктов по их ID
         Map<Long, DailyIntakeFood> foodMap = new HashMap<>();
         for (DailyIntakeFood dailyIntakeFood : dailyIntake.getDailyIntakeFoods()) {
             foodMap.put(dailyIntakeFood.getFood().getId(), dailyIntakeFood);
         }
 
-        // Обрабатываем каждый продукт из запроса
         for (int i = 0; i < request.getFoodIds().size(); i++) {
             Long foodId = request.getFoodIds().get(i);
             double weight = request.getWeights().get(i);
 
-            // Проверяем, есть ли уже такой продукт в приеме пищи
             if (foodMap.containsKey(foodId)) {
-                // Если продукт уже есть, обновляем его вес
                 DailyIntakeFood existingEntry = foodMap.get(foodId);
                 existingEntry.setWeight(weight);
             } else {
-                // Если продукта нет, создаем новую запись
                 Food food = foodRepository.findById(foodId)
                         .orElseThrow(() -> new ResourceNotFoundException("Food not found"));
 
@@ -142,21 +139,64 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
                 dailyIntakeFood.setFood(food);
                 dailyIntakeFood.setWeight(weight);
 
-                // Добавляем в список
                 dailyIntake.getDailyIntakeFoods().add(dailyIntakeFood);
             }
         }
-
-        // Сохраняем изменения
         dailyIntakeRepository.save(dailyIntake);
+        evictDailyIntakeCache(dailyIntake); // Очищаем кэш
     }
 
     @Override
+    @Transactional
     public boolean deleteDailyIntake(Long id) {
-        if (dailyIntakeRepository.existsById(id)) {
-            dailyIntakeRepository.deleteById(id);
-            return true;
-        }
-        return false;
+        return dailyIntakeRepository.findById(id)
+                .map(dailyIntake -> {
+                    // Получаем данные для очистки кэша
+                    String email = dailyIntake.getUser().getEmail();
+                    LocalDate date = dailyIntake.getCreationDate();
+
+                    // Удаляем из БД
+                    dailyIntakeRepository.delete(dailyIntake);
+
+                    // Очищаем кэш
+                    dailyIntakeCache.evictIntakesWithDate(email, date);
+                    dailyIntakeCache.evictNutritionData(email, date);
+
+                    return true;
+                })
+                .orElse(false); // Если запись не найдена
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<DailyIntake> getUserIntakes(String email, @Nullable LocalDate date) {
+        if (date != null) {
+            return dailyIntakeCache.getIntakesWithDate(email, date)
+                    .orElseGet(() -> {
+                        List<DailyIntake> intakes = dailyIntakeRepository.findUserIntakesWithDate(email, date);
+                        dailyIntakeCache.putIntakesWithDate(email, date, intakes);
+                        return intakes;
+                    });
+        }
+        return dailyIntakeCache.getIntakesWithoutDate(email)
+                .orElseGet(() -> {
+                    List<DailyIntake> intakes = dailyIntakeRepository.findUserIntakesWithoutDate(email);
+                    dailyIntakeCache.putIntakesWithoutDate(email, intakes);
+                    return intakes;
+                });
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public DailyNutritionDto getDailyNutrition(String email, LocalDate date) {
+        return dailyIntakeCache.getNutritionData(email, date)
+                .map(DailyNutritionDto::new)
+                .orElseGet(() -> {
+                    Map<String, Double> nutrition = dailyIntakeRepository.calculateDailyNutrition(email, date)
+                            .orElseThrow(() -> new ResourceNotFoundException("Nutrition data not found"));
+                    dailyIntakeCache.putNutritionData(email, date, nutrition);
+                    return new DailyNutritionDto(nutrition);
+                });
+    }
+
 }

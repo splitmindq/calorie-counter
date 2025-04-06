@@ -1,10 +1,19 @@
 package splitmindq.caloriecounter.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import splitmindq.caloriecounter.dto.DailyNutritionDto;
 import splitmindq.caloriecounter.excpetions.ResourceNotFoundException;
 import splitmindq.caloriecounter.model.DailyIntake;
 import splitmindq.caloriecounter.requests.AddFoodToDailyIntakeRequest;
@@ -15,6 +24,7 @@ import splitmindq.caloriecounter.service.DailyIntakeService;
 @RestController
 @RequestMapping("/api/v1/daily_intakes")
 @AllArgsConstructor
+@Validated
 public class DailyIntakeController {
     private DailyIntakeService dailyIntakeService;
 
@@ -27,6 +37,28 @@ public class DailyIntakeController {
         return new ResponseEntity<>(dailyIntakeList, HttpStatus.OK);
     }
 
+    @GetMapping("/filter")
+    public List<DailyIntake> getIntakesByUserAndDate(
+            @RequestParam String email,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return dailyIntakeService.getUserIntakes(email, date);
+    }
+
+    @GetMapping("/nutrition")
+    public ResponseEntity<?> getNutrition(
+            @RequestParam @NotBlank @Email String email,
+            @RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        try {
+            DailyNutritionDto result = dailyIntakeService.getDailyNutrition(email, date);
+            return ResponseEntity.ok(result);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", "Internal server error"));
+        }
+    }
+
     @PostMapping("create_intake")
     public ResponseEntity<String> createDailyIntake(@RequestBody DailyIntakeRequest request) {
         try {
@@ -37,7 +69,6 @@ public class DailyIntakeController {
                     .body("Error creating daily intake: " + e.getMessage());
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<DailyIntake> getDailyIntake(@PathVariable Long id) {

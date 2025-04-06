@@ -1,9 +1,8 @@
 package splitmindq.caloriecounter.requests;
 
+import java.util.List;
 import lombok.Data;
 import splitmindq.caloriecounter.model.FoodEntry;
-
-import java.util.List;
 
 @Data
 public class DailyIntakeRequest {

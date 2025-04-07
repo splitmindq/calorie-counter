@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import jakarta.annotation.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -151,20 +152,17 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
     public boolean deleteDailyIntake(Long id) {
         return dailyIntakeRepository.findById(id)
                 .map(dailyIntake -> {
-                    // Получаем данные для очистки кэша
                     String email = dailyIntake.getUser().getEmail();
                     LocalDate date = dailyIntake.getCreationDate();
 
-                    // Удаляем из БД
                     dailyIntakeRepository.delete(dailyIntake);
 
-                    // Очищаем кэш
                     dailyIntakeCache.evictIntakesWithDate(email, date);
                     dailyIntakeCache.evictNutritionData(email, date);
 
                     return true;
                 })
-                .orElse(false); // Если запись не найдена
+                .orElse(false);
     }
 
     @Override

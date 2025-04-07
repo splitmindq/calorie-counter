@@ -11,6 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -25,12 +29,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Имя обязательно")
     private String firstName;
+    @NotBlank(message = "Имя обязательно")
     private String lastName;
+
     private int age;
+
+    @NotBlank(message = "Пол должен быть указан")
     private String gender;
 
     @Column(unique = true)
+    @NotBlank(message = "Email не может быть пустым")
+    @Email(message = "Некорректный формат email")
     private String email;
 
     private int weight;

@@ -1,9 +1,15 @@
 package splitmindq.caloriecounter.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,10 +31,16 @@ import splitmindq.caloriecounter.service.DailyIntakeService;
 @RequestMapping("/api/v1/daily_intakes")
 @AllArgsConstructor
 @Validated
+@Tag(name = "Дневной рацион", description = "Операции для учета ежедневного потребления пищи")
 public class DailyIntakeController {
     private DailyIntakeService dailyIntakeService;
 
     @GetMapping
+    @Operation(summary = "Получить все записи о дневном рационе",
+            description = "Возвращает список всех записей о потреблении пищи")
+    @ApiResponse(responseCode = "200", description = "Успешное получение списка",
+            content = @Content(schema = @Schema(implementation = DailyIntake.class)))
+    @ApiResponse(responseCode = "204", description = "Список пуст")
     public ResponseEntity<List<DailyIntake>> getAll() {
         List<DailyIntake> dailyIntakeList = dailyIntakeService.getAllDailyIntakes();
         if (dailyIntakeList.isEmpty()) {
@@ -38,6 +50,9 @@ public class DailyIntakeController {
     }
 
     @GetMapping("/filter")
+    @Operation(summary = "Фильтрация записей по пользователю и дате",
+            description = "Возвращает записи о потреблении пищи для конкретного пользователя с возможностью фильтрации по дате")
+    @ApiResponse(responseCode = "200", description = "Успешное получение отфильтрованного списка")
     public List<DailyIntake> getIntakesByUserAndDate(
             @RequestParam String email,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
@@ -45,6 +60,14 @@ public class DailyIntakeController {
     }
 
     @GetMapping("/nutrition")
+    @Operation(summary = "Получить дневную nutritional информацию",
+            description = "Возвращает суммарную nutritional информацию за указанный день для пользователя")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Успешное получение данных",
+                    content = @Content(schema = @Schema(implementation = DailyNutritionDto.class))),
+            @ApiResponse(responseCode = "404", description = "Данные не найдены"),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера")
+    })
     public ResponseEntity<?> getNutrition(
             @RequestParam @NotBlank @Email String email,
             @RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
@@ -60,6 +83,12 @@ public class DailyIntakeController {
     }
 
     @PostMapping("create_intake")
+    @Operation(summary = "Создать новую запись о дневном рационе",
+            description = "Создает новую запись о потреблении пищи")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Запись успешно создана"),
+            @ApiResponse(responseCode = "500", description = "Ошибка при создании записи")
+    })
     public ResponseEntity<String> createDailyIntake(@RequestBody DailyIntakeRequest request) {
         try {
             dailyIntakeService.createDailyIntake(request);

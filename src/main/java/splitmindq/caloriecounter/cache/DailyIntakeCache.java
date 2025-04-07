@@ -80,6 +80,12 @@ public class DailyIntakeCache {
             logger.warn("Попытка добавить данные с null параметрами");
             return;
         }
+
+        if (intakes.isEmpty()) {
+            logger.info("Не кэшируем пустой список intake для email={} и date={}", email, date);
+            return;
+        }
+
         var dateCache = intakesWithDateCache.computeIfAbsent(email, k -> new ConcurrentHashMap<>());
         dateCache.put(date, new CacheEntry<>(Collections.unmodifiableList(new ArrayList<>(intakes)), INTAKES_WITH_DATE_TTL));
         enforceLimit(dateCache, INTAKES_WITH_DATE_LIMIT);
@@ -177,18 +183,6 @@ public class DailyIntakeCache {
         return result;
     }
 
-    public void putIntakesWithoutDate(String email, List<DailyIntake> intakes) {
-        if (email == null || intakes == null) {
-            logger.warn("Попытка добавить данные с null параметрами");
-            return;
-        }
-        intakesWithoutDateCache.put(
-                email,
-                new CacheEntry<>(Collections.unmodifiableList(new ArrayList<>(intakes)), INTAKES_WITHOUT_DATE_TTL)
-        );
-        enforceLimit(intakesWithoutDateCache, INTAKES_WITHOUT_DATE_LIMIT);
-    }
-
     public void putNutritionData(String email, LocalDate date, Map<String, Double> nutrition) {
         if (email == null || date == null || nutrition == null) {
             logger.warn("Попытка добавить данные о питательных веществах с null параметрами");
@@ -197,6 +191,25 @@ public class DailyIntakeCache {
         var nutritionMap = nutritionCache.computeIfAbsent(email, k -> new ConcurrentHashMap<>());
         nutritionMap.put(date, new CacheEntry<>(new HashMap<>(nutrition), NUTRITION_DATA_TTL));
     }
+
+    public void putIntakesWithoutDate(String email, List<DailyIntake> intakes) {
+        if (email == null || intakes == null) {
+            logger.warn("Попытка добавить данные с null параметрами");
+            return;
+        }
+
+        if (intakes.isEmpty()) {
+            logger.info("Не кэшируем пустой список intake для email={} ", email);
+            return;
+        }
+
+        intakesWithoutDateCache.put(
+                email,
+                new CacheEntry<>(Collections.unmodifiableList(new ArrayList<>(intakes)), INTAKES_WITHOUT_DATE_TTL)
+        );
+        enforceLimit(intakesWithoutDateCache, INTAKES_WITHOUT_DATE_LIMIT);
+    }
+
 
     public void evictIntakesWithDate(String email, LocalDate date) {
         if (email != null && date != null) {
@@ -210,6 +223,13 @@ public class DailyIntakeCache {
             Optional.ofNullable(nutritionCache.get(email))
                     .ifPresent(map -> map.remove(date));
         }
+    }
+
+    public void evictAllUserData(String email) {
+        intakesWithDateCache.remove(email);
+        intakesWithoutDateCache.remove(email);
+        nutritionCache.remove(email);
+        logger.info("Удалены все кэшированные данные для пользователя {}", email);
     }
 
     private <K, V> void enforceLimit(Map<K, CacheEntry<V>> cache, int limit) {

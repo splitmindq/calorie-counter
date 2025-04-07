@@ -4,10 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import splitmindq.caloriecounter.model.DailyIntake;
+import splitmindq.caloriecounter.model.User;
 
 public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> {
     // jpql date not null
@@ -55,6 +59,16 @@ public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> 
             @Param("email") String email,
             @Param("date") LocalDate date
     );
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM DailyIntakeFood dif WHERE dif.dailyIntake.user.id = :userId")
+    void deleteAllDailyIntakeFoodByUserId(@Param("userId") Long userId);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM DailyIntake di WHERE di.user.id = :userId")
+    void deleteAllByUserId(@Param("userId") Long userId);
 }
 
 

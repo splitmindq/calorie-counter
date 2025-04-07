@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import splitmindq.caloriecounter.cache.DailyIntakeCache;
+import splitmindq.caloriecounter.dao.DailyIntakeRepository;
 import splitmindq.caloriecounter.dao.UserRepository;
 import splitmindq.caloriecounter.excpetions.ResourceNotFoundException;
 import splitmindq.caloriecounter.model.User;
@@ -16,6 +18,8 @@ import splitmindq.caloriecounter.service.UserService;
 @Primary
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final DailyIntakeRepository dailyIntakeRepository;
+    private final DailyIntakeCache dailyIntakeCache;
 
     @Override
     @Transactional
@@ -34,22 +38,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return true;
-        }
-        return false;
+        return userRepository.findById(id)
+                .map(user -> {
+                    dailyIntakeRepository.deleteAllDailyIntakeFoodByUserId(user.getId());
+
+                    dailyIntakeRepository.deleteAllByUserId(user.getId());
+
+                    dailyIntakeCache.evictAllUserData(user.getEmail());
+
+                    userRepository.delete(user);
+                    return true;
+                })
+                .orElse(false);
     }
 
     @Override
     public void updateUser(Long id, User updatedUser) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        if (!existingUser.getEmail().equals(updatedUser.getEmail()) &&
-                userRepository.existsByEmail(updatedUser.getEmail())) {
-            throw new DataIntegrityViolationException("Email is already in use.");
+
+        if (!existingUser.getEmail().equals(updatedUser.getEmail())) {
+            dailyIntakeCache.evictAllUserData(existingUser.getEmail());
+            if (userRepository.existsByEmail(updatedUser.getEmail())) {
+                throw new DataIntegrityViolationException("Email is already in use.");
+            }
         }
+
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
         existingUser.setAge(updatedUser.getAge());

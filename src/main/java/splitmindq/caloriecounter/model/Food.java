@@ -19,4 +19,5 @@ public class Food {
     private double protein;
     private double fats;
     private double carbs;
+
 }

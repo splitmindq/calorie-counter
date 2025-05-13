@@ -20,4 +20,6 @@ public class DailyNutritionDto {
         this.fats = data.getOrDefault("fats", 0.0);
         this.carbs = data.getOrDefault("carbs", 0.0);
     }
+
+
 }

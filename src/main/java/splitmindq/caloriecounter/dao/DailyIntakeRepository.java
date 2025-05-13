@@ -42,7 +42,7 @@ public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> 
 
     // native
     @Query(value = """
-            SELECT 
+            SELECT
                 COALESCE(ROUND(SUM(f.calories * dif.weight / 100)::numeric, 1), 0.0) AS calories,
                 COALESCE(ROUND(SUM(f.protein * dif.weight / 100)::numeric, 1), 0.0) AS protein,
                 COALESCE(ROUND(SUM(f.fats * dif.weight / 100)::numeric, 1), 0.0) AS fats,
@@ -69,6 +69,10 @@ public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> 
     @Modifying
     @Query("DELETE FROM DailyIntake di WHERE di.user.id = :userId")
     void deleteAllByUserId(@Param("userId") Long userId);
+
+    Object findByUserEmailAndCreationDate(String mail, LocalDate date);
+
+    Object findByUserEmail(String mail);
 }
 
 

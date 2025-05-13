@@ -16,6 +16,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * Модель пользователя, содержащая основную информацию о пользователе.
@@ -49,5 +50,6 @@ public class User {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<DailyIntake> dailyIntakes;
 }

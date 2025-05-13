@@ -17,12 +17,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * Модель записи о ежедневном потреблении.
  */
 @Data
 @Entity
+@ToString
 @Table(name = "daily_intakes")
 public class DailyIntake {
     @Id
@@ -40,12 +42,10 @@ public class DailyIntake {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
     private User user;
 
     @OneToMany(mappedBy = "dailyIntake", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DailyIntakeFood> dailyIntakeFoods;
-
-    public DailyIntake() {
-        this.dailyIntakeFoods = new ArrayList<>();
-    }
+    @ToString.Exclude
+    private List<DailyIntakeFood> dailyIntakeFoods = new ArrayList<>();
 }

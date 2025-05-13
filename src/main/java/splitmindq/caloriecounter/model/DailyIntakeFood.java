@@ -9,9 +9,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-
+import lombok.ToString;
 @Data
 @Entity
+@ToString
 @Table(name = "daily_intake_food")
 public class DailyIntakeFood {
     @Id
@@ -21,6 +22,7 @@ public class DailyIntakeFood {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "daily_intake_id", nullable = false)
+    @ToString.Exclude
     private DailyIntake dailyIntake;
 
     @ManyToOne

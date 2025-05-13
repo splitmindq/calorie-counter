@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -209,7 +208,6 @@ public class DailyIntakeCache {
         );
         enforceLimit(intakesWithoutDateCache, INTAKES_WITHOUT_DATE_LIMIT);
     }
-
 
     public void evictIntakesWithDate(String email, LocalDate date) {
         if (email != null && date != null) {

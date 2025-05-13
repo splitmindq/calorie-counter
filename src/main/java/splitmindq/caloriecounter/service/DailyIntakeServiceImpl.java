@@ -25,6 +25,7 @@ import splitmindq.caloriecounter.requests.UpdateDailyIntakeRequest;
 @Service
 @AllArgsConstructor
 public class DailyIntakeServiceImpl implements DailyIntakeService {
+    private static final String FOOD_NOT_FOUND_MSG = "Food not found";
     private final UserRepository userRepository;
     private final FoodRepository foodRepository;
     private final DailyIntakeRepository dailyIntakeRepository;
@@ -41,9 +42,8 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
         // 1. Находим сущности
         DailyIntake dailyIntake = dailyIntakeRepository.findById(dailyIntakeId)
                 .orElseThrow(() -> new ResourceNotFoundException("DailyIntake not found"));
-
         Food food = foodRepository.findById(foodId)
-                .orElseThrow(() -> new ResourceNotFoundException("Food not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(FOOD_NOT_FOUND_MSG));
 
         // 2. Обновляем данные
         Optional<DailyIntakeFood> existingEntry = dailyIntake.getDailyIntakeFoods().stream()
@@ -86,7 +86,7 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
 
         for (FoodEntry foodEntry : dailyIntakeRequest.getFoodEntries()) {
             Food food = foodRepository.findById(foodEntry.getFoodId())
-                    .orElseThrow(() -> new RuntimeException("Food not found"));
+                    .orElseThrow(() -> new RuntimeException(FOOD_NOT_FOUND_MSG));
 
             DailyIntakeFood existingEntry = foodMap.get(foodEntry.getFoodId());
 
@@ -133,7 +133,7 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
                 existingEntry.setWeight(weight);
             } else {
                 Food food = foodRepository.findById(foodId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Food not found"));
+                        .orElseThrow(() -> new ResourceNotFoundException(FOOD_NOT_FOUND_MSG));
 
                 DailyIntakeFood dailyIntakeFood = new DailyIntakeFood();
                 dailyIntakeFood.setDailyIntake(dailyIntake);

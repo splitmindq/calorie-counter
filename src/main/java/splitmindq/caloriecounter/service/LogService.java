@@ -71,7 +71,6 @@ public class LogService {
                 status = "INTERRUPTED";
             } catch (IOException e) {
                 status = "FAILED";
-                e.printStackTrace();
             }
         }
 

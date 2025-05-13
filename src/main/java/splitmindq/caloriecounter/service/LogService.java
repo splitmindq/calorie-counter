@@ -41,6 +41,7 @@ public class LogService {
         return task.getLogFile();
     }
 
+
     private static class LogTask implements Runnable {
         private final String taskId;
         private final LocalDate date;
@@ -68,7 +69,7 @@ public class LogService {
                 filterAndSaveLogs(date, logFile);
 
                 status = "COMPLETED";
-            } catch (Exception e) {
+            } catch (InterruptedException | IOException e) {
                 status = "FAILED";
             }
         }

@@ -60,17 +60,18 @@ public class LogService {
             status = "RUNNING";
             try {
                 Thread.sleep(10000);
-
                 Files.createDirectories(Paths.get(ARCHIVE_DIR));
-
                 String filename = "application_" + date.format(DATE_FORMAT) + ".log";
                 logFile = new File(ARCHIVE_DIR + filename);
-
                 filterAndSaveLogs(date, logFile);
-
                 status = "COMPLETED";
-            } catch (InterruptedException | IOException e) {
+            } catch (InterruptedException e) {
+                // Восстанавливаем статус прерывания
+                Thread.currentThread().interrupt();
+                status = "INTERRUPTED";
+            } catch (IOException e) {
                 status = "FAILED";
+                e.printStackTrace();
             }
         }
 

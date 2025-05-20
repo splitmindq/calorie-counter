@@ -14,7 +14,6 @@ import splitmindq.caloriecounter.model.DailyIntake;
 import splitmindq.caloriecounter.model.User;
 
 public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> {
-    // jpql date not null
     @Query("""
             SELECT DISTINCT di FROM DailyIntake di
             JOIN FETCH di.user u
@@ -29,7 +28,6 @@ public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> 
             @Param("date") LocalDate date
     );
 
-    // Запрос date null
     @Query("""
             SELECT DISTINCT di FROM DailyIntake di
             JOIN FETCH di.user u
@@ -40,25 +38,39 @@ public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> 
             """)
     List<DailyIntake> findUserIntakesWithoutDate(@Param("email") String email);
 
-    // native
     @Query(value = """
             SELECT
-                COALESCE(ROUND(SUM(f.calories * dif.weight / 100)::numeric, 1), 0.0) AS calories,
-                COALESCE(ROUND(SUM(f.protein * dif.weight / 100)::numeric, 1), 0.0) AS protein,
-                COALESCE(ROUND(SUM(f.fats * dif.weight / 100)::numeric, 1), 0.0) AS fats,
-                COALESCE(ROUND(SUM(f.carbs * dif.weight / 100)::numeric, 1), 0.0) AS carbs
+                COALESCE(ROUND(CAST(SUM(f.calories * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS calories,
+                COALESCE(ROUND(CAST(SUM(f.protein * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS protein,
+                COALESCE(ROUND(CAST(SUM(f.fats * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS fats,
+                COALESCE(ROUND(CAST(SUM(f.carbs * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS carbs
             FROM daily_intakes di
             JOIN users u ON di.user_id = u.id
-            JOIN daily_intake_food dif ON di.id = dif.daily_intake_id
-            JOIN foods f ON dif.food_id = f.id
-            WHERE u.email = :email
-            AND di.created_at = :date
-            GROUP BY di.created_at
+            LEFT JOIN daily_intake_food dif ON di.id = dif.daily_intake_id
+            LEFT JOIN foods f ON dif.food_id = f.id
+            WHERE u.email = ?1
+            AND di.created_at = ?2
+            GROUP BY di.created_at, u.email, u.id
             """, nativeQuery = true)
     Optional<Map<String, Double>> calculateDailyNutrition(
-            @Param("email") String email,
-            @Param("date") LocalDate date
+            String email,
+            LocalDate date
     );
+
+    @Query(value = """
+            SELECT
+                COALESCE(ROUND(CAST(SUM(f.calories * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS calories,
+                COALESCE(ROUND(CAST(SUM(f.protein * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS protein,
+                COALESCE(ROUND(CAST(SUM(f.fats * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS fats,
+                COALESCE(ROUND(CAST(SUM(f.carbs * dif.weight / 100.0) AS NUMERIC), 1), 0.0) AS carbs
+            FROM daily_intakes di
+            JOIN users u ON di.user_id = u.id
+            LEFT JOIN daily_intake_food dif ON di.id = dif.daily_intake_id
+            LEFT JOIN foods f ON dif.food_id = f.id
+            WHERE di.id = ?1
+            GROUP BY di.id, u.email, u.id
+            """, nativeQuery = true)
+    Optional<Map<String, Double>> calculateNutritionForIntake(Long intakeId);
 
     @Transactional
     @Modifying
@@ -69,10 +81,4 @@ public interface DailyIntakeRepository extends JpaRepository<DailyIntake, Long> 
     @Modifying
     @Query("DELETE FROM DailyIntake di WHERE di.user.id = :userId")
     void deleteAllByUserId(@Param("userId") Long userId);
-
-    Object findByUserEmailAndCreationDate(String mail, LocalDate date);
-
-    Object findByUserEmail(String mail);
 }
-
-

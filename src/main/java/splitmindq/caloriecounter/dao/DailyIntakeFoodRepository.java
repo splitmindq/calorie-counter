@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DailyIntakeFoodRepository extends JpaRepository<DailyIntakeFood, Long> {
     List<DailyIntakeFood> findByFoodId(Long foodId);
+
+    List<DailyIntakeFood> findByDailyIntakeId(Long id);
 }

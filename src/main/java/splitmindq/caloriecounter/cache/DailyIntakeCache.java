@@ -18,16 +18,20 @@ import splitmindq.caloriecounter.model.DailyIntake;
 
 @Component
 public class DailyIntakeCache {
-    private static final long INTAKES_WITH_DATE_TTL = 10;
-    private static final long INTAKES_WITHOUT_DATE_TTL = 1;
-    private static final long NUTRITION_DATA_TTL = 30;
+    private static final long INTAKES_WITH_DATE_TTL = 10; // 10 минут
+    private static final long INTAKES_WITHOUT_DATE_TTL = 10; // 10 минут
+    private static final long NUTRITION_DATA_TTL = 30; // 30 минут
+    private static final long INTAKE_NUTRITION_TTL = 30; // 30 минут
 
     private static final int INTAKES_WITH_DATE_LIMIT = 100;
     private static final int INTAKES_WITHOUT_DATE_LIMIT = 100;
+    private static final int NUTRITION_LIMIT = 100;
+    private static final int INTAKE_NUTRITION_LIMIT = 100;
 
     private final Map<String, Map<LocalDate, CacheEntry<List<DailyIntake>>>> intakesWithDateCache = new ConcurrentHashMap<>();
     private final Map<String, CacheEntry<List<DailyIntake>>> intakesWithoutDateCache = new ConcurrentHashMap<>();
     private final Map<String, Map<LocalDate, CacheEntry<Map<String, Double>>>> nutritionCache = new ConcurrentHashMap<>();
+    private final Map<Long, CacheEntry<Map<String, Double>>> intakeNutritionCache = new ConcurrentHashMap<>();
 
     private final ScheduledExecutorService cleanupExecutor = Executors.newSingleThreadScheduledExecutor();
 
@@ -59,13 +63,15 @@ public class DailyIntakeCache {
         cleanCacheWithDate(intakesWithDateCache);
         cleanSimpleCache(intakesWithoutDateCache);
         cleanCacheWithDate(nutritionCache);
+        cleanSimpleCache(intakeNutritionCache);
+        logger.debug("Performed cache cleanup");
     }
 
     private <K1, K2, V> void cleanCacheWithDate(Map<K1, Map<K2, CacheEntry<V>>> cache) {
-        cache.forEach((email, dateMap) -> {
+        cache.forEach((key1, dateMap) -> {
             dateMap.entrySet().removeIf(entry -> entry.getValue().isExpired());
             if (dateMap.isEmpty()) {
-                cache.remove(email);
+                cache.remove(key1);
             }
         });
     }
@@ -76,23 +82,24 @@ public class DailyIntakeCache {
 
     public void putIntakesWithDate(String email, LocalDate date, List<DailyIntake> intakes) {
         if (email == null || date == null || intakes == null) {
-            logger.warn("Попытка добавить данные с null параметрами");
+            logger.warn("Attempt to cache null data: email={}, date={}", email, date);
             return;
         }
 
         if (intakes.isEmpty()) {
-            logger.info("Не кэшируем пустой список intake для email={} и date={}", email, date);
+            logger.info("Not caching empty intake list for email={} and date={}", email, date);
             return;
         }
 
         var dateCache = intakesWithDateCache.computeIfAbsent(email, k -> new ConcurrentHashMap<>());
         dateCache.put(date, new CacheEntry<>(Collections.unmodifiableList(new ArrayList<>(intakes)), INTAKES_WITH_DATE_TTL));
         enforceLimit(dateCache, INTAKES_WITH_DATE_LIMIT);
+        logger.info("Cached {} intakes for email={} and date={}", intakes.size(), email, date);
     }
 
     public Optional<List<DailyIntake>> getIntakesWithDate(String email, LocalDate date) {
         if (email == null || date == null) {
-            logger.warn("Попытка получить данные с null параметрами: email={}, date={}", email, date);
+            logger.warn("Attempt to retrieve data with null parameters: email={}, date={}", email, date);
             return Optional.empty();
         }
 
@@ -101,14 +108,13 @@ public class DailyIntakeCache {
                 .filter(entry -> !entry.isExpired())
                 .map(CacheEntry::getValue);
 
-        logCacheAccess("с датой", email, date, result);
-
+        logCacheAccess("with date", email, date, result);
         return result;
     }
 
     public Optional<List<DailyIntake>> getIntakesWithoutDate(String email) {
         if (email == null) {
-            logger.warn("Попытка получить данные с null email");
+            logger.warn("Attempt to retrieve data with null email");
             return Optional.empty();
         }
 
@@ -116,7 +122,7 @@ public class DailyIntakeCache {
                 .filter(entry -> !entry.isExpired())
                 .map(CacheEntry::getValue);
 
-        logCacheAccess("без даты", email, null, result);
+        logCacheAccess("without date", email, null, result);
         return result;
     }
 
@@ -133,27 +139,26 @@ public class DailyIntakeCache {
                     .collect(Collectors.joining(", "));
 
             if (intakes.size() > 3) {
-                intakeInfo += ", ... (всего " + intakes.size() + " записей)";
+                intakeInfo += ", ... (total " + intakes.size() + " records)";
             }
 
             if (date != null) {
-                logger.info("Найдены данные {} для {} на дату {}: {}", cacheType, email, date, intakeInfo);
+                logger.info("Found {} data for email={} and date={}: {}", cacheType, email, date, intakeInfo);
             } else {
-                logger.info("Найдены данные {} для {}: {}", cacheType, email, intakeInfo);
+                logger.info("Found {} data for email={}: {}", cacheType, email, intakeInfo);
             }
         } else {
             if (date != null) {
-                logger.warn("Данные {} для {} на дату {} не найдены", cacheType, email, date);
+                logger.debug("No {} data found for email={} and date={}", cacheType, email, date);
             } else {
-                logger.warn("Данные {} для {} не найдены", cacheType, email);
+                logger.debug("No {} data found for email={}", cacheType, email);
             }
         }
     }
 
     public Optional<Map<String, Double>> getNutritionData(String email, LocalDate date) {
         if (email == null || date == null) {
-            logger.warn("Попытка получить данные о питательных веществах с null параметрами: email={}, date={}",
-                    email, date);
+            logger.warn("Attempt to retrieve nutrition data with null parameters: email={}, date={}", email, date);
             return Optional.empty();
         }
 
@@ -162,43 +167,64 @@ public class DailyIntakeCache {
                 .filter(entry -> !entry.isExpired())
                 .map(CacheEntry::getValue);
 
-        if (result.isPresent()) {
-            Map<String, Double> nutrition = result.get();
-            String example = nutrition.entrySet().stream()
-                    .limit(3)
-                    .map(e -> e.getKey() + "=" + e.getValue())
-                    .collect(Collectors.joining(", "));
-
-            if (nutrition.size() > 3) {
-                example += ", ... (всего " + nutrition.size() + " элементов)";
-            }
-
-            logger.info("Найдены данные о питательных веществах для {} на {}. {}",
-                    email, date, example);
-        } else {
-            logger.warn("Данные о питательных веществах для {} на {} не найдены", email, date);
-        }
-
+        logNutritionCacheAccess(email, date, result);
         return result;
     }
 
     public void putNutritionData(String email, LocalDate date, Map<String, Double> nutrition) {
         if (email == null || date == null || nutrition == null) {
-            logger.warn("Попытка добавить данные о питательных веществах с null параметрами");
+            logger.warn("Attempt to cache null nutrition data: email={}, date={}", email, date);
             return;
         }
         var nutritionMap = nutritionCache.computeIfAbsent(email, k -> new ConcurrentHashMap<>());
         nutritionMap.put(date, new CacheEntry<>(new HashMap<>(nutrition), NUTRITION_DATA_TTL));
+        enforceLimit(nutritionMap, NUTRITION_LIMIT);
+        logger.info("Cached nutrition data for email={} and date={}: {}", email, date, nutrition);
+    }
+
+    public Optional<Map<String, Double>> getNutritionDataForIntake(Long intakeId) {
+        if (intakeId == null) {
+            logger.warn("Attempt to retrieve nutrition data with null intakeId");
+            return Optional.empty();
+        }
+
+        Optional<Map<String, Double>> result = Optional.ofNullable(intakeNutritionCache.get(intakeId))
+                .filter(entry -> !entry.isExpired())
+                .map(CacheEntry::getValue);
+
+        if (result.isPresent()) {
+            logger.info("Found cached nutrition data for intakeId={}: {}", intakeId, result.get());
+        } else {
+            logger.debug("No nutrition data found for intakeId={}", intakeId);
+        }
+        return result;
+    }
+
+    public void putNutritionDataForIntake(Long intakeId, Map<String, Double> nutrition) {
+        if (intakeId == null || nutrition == null) {
+            logger.warn("Attempt to cache null nutrition data for intakeId={}", intakeId);
+            return;
+        }
+        intakeNutritionCache.put(intakeId, new CacheEntry<>(new HashMap<>(nutrition), INTAKE_NUTRITION_TTL));
+        enforceLimit(intakeNutritionCache, INTAKE_NUTRITION_LIMIT);
+        logger.info("Cached nutrition data for intakeId={}: {}", intakeId, nutrition);
+    }
+
+    public void evictNutritionDataForIntake(Long intakeId) {
+        if (intakeId != null) {
+            intakeNutritionCache.remove(intakeId);
+            logger.info("Evicted nutrition cache for intakeId={}", intakeId);
+        }
     }
 
     public void putIntakesWithoutDate(String email, List<DailyIntake> intakes) {
         if (email == null || intakes == null) {
-            logger.warn("Попытка добавить данные с null параметрами");
+            logger.warn("Attempt to cache null data: email={}", email);
             return;
         }
 
         if (intakes.isEmpty()) {
-            logger.info("Не кэшируем пустой список intake для email={} ", email);
+            logger.info("Not caching empty intake list for email={}", email);
             return;
         }
 
@@ -207,12 +233,14 @@ public class DailyIntakeCache {
                 new CacheEntry<>(Collections.unmodifiableList(new ArrayList<>(intakes)), INTAKES_WITHOUT_DATE_TTL)
         );
         enforceLimit(intakesWithoutDateCache, INTAKES_WITHOUT_DATE_LIMIT);
+        logger.info("Cached {} intakes for email={}", intakes.size(), email);
     }
 
     public void evictIntakesWithDate(String email, LocalDate date) {
         if (email != null && date != null) {
             Optional.ofNullable(intakesWithDateCache.get(email))
                     .ifPresent(map -> map.remove(date));
+            logger.info("Evicted intakesWithDate cache for email={} and date={}", email, date);
         }
     }
 
@@ -220,6 +248,14 @@ public class DailyIntakeCache {
         if (email != null && date != null) {
             Optional.ofNullable(nutritionCache.get(email))
                     .ifPresent(map -> map.remove(date));
+            logger.info("Evicted nutrition cache for email={} and date={}", email, date);
+        }
+    }
+
+    public void evictIntakesWithoutDate(String email) {
+        if (email != null) {
+            intakesWithoutDateCache.remove(email);
+            logger.info("Evicted intakesWithoutDate cache for email={}", email);
         }
     }
 
@@ -227,12 +263,35 @@ public class DailyIntakeCache {
         intakesWithDateCache.remove(email);
         intakesWithoutDateCache.remove(email);
         nutritionCache.remove(email);
-        logger.info("Удалены все кэшированные данные для пользователя {}", email);
+        logger.info("Evicted all cached data for email={}", email);
     }
 
     private <K, V> void enforceLimit(Map<K, CacheEntry<V>> cache, int limit) {
-        if (cache.size() > limit) {
-            cache.clear();
+        if (cache.size() <= limit) {
+            return;
+        }
+        // Сортируем по времени создания и удаляем самые старые записи
+        List<Map.Entry<K, CacheEntry<V>>> entries = new ArrayList<>(cache.entrySet());
+        entries.sort(Comparator.comparing(e -> e.getValue().getCreatedAt()));
+        while (cache.size() > limit && !entries.isEmpty()) {
+            cache.remove(entries.remove(0).getKey());
+        }
+        logger.debug("Enforced cache limit of {} entries, current size={}", limit, cache.size());
+    }
+
+    private void logNutritionCacheAccess(String email, LocalDate date, Optional<Map<String, Double>> result) {
+        if (result.isPresent()) {
+            Map<String, Double> nutrition = result.get();
+            String example = nutrition.entrySet().stream()
+                    .limit(3)
+                    .map(e -> e.getKey() + "=" + e.getValue())
+                    .collect(Collectors.joining(", "));
+            if (nutrition.size() > 3) {
+                example += ", ... (total " + nutrition.size() + " elements)";
+            }
+            logger.info("Found nutrition data for email={} and date={}: {}", email, date, example);
+        } else {
+            logger.debug("No nutrition data found for email={} and date={}", email, date);
         }
     }
 
@@ -240,5 +299,8 @@ public class DailyIntakeCache {
     public void handleDailyIntakeDeleted(DailyIntakeDeletedEvent event) {
         evictIntakesWithDate(event.getEmail(), event.getDate());
         evictNutritionData(event.getEmail(), event.getDate());
+        evictNutritionDataForIntake(event.getIntakeId());
+        logger.info("Handled DailyIntakeDeletedEvent for email={}, date={}, intakeId={}",
+                event.getEmail(), event.getDate(), event.getIntakeId());
     }
 }

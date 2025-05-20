@@ -3,6 +3,7 @@ package splitmindq.caloriecounter.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.Map;
 
 @Data
@@ -14,12 +15,10 @@ public class DailyNutritionDto {
     private double fats;
     private double carbs;
 
-    public DailyNutritionDto(Map<String, Double> data) {
-        this.calories = data.getOrDefault("calories", 0.0);
-        this.protein = data.getOrDefault("protein", 0.0);
-        this.fats = data.getOrDefault("fats", 0.0);
-        this.carbs = data.getOrDefault("carbs", 0.0);
+    public DailyNutritionDto(Map<String, Double> nutrition) {
+        this.calories = nutrition.getOrDefault("calories", 0.0);
+        this.protein = nutrition.getOrDefault("protein", 0.0);
+        this.fats = nutrition.getOrDefault("fats", 0.0);
+        this.carbs = nutrition.getOrDefault("carbs", 0.0);
     }
-
-
 }

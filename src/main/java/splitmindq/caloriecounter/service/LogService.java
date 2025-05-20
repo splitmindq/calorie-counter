@@ -41,7 +41,6 @@ public class LogService {
         return task.getLogFile();
     }
 
-
     private static class LogTask implements Runnable {
         private final String taskId;
         private final LocalDate date;

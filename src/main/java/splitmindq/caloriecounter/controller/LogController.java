@@ -23,6 +23,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 @RestController
 @Tag(name = "Контроллер логирования", description = "API для управления логами")

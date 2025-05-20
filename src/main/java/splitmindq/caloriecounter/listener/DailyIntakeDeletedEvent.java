@@ -1,24 +1,19 @@
 package splitmindq.caloriecounter.listener;
 
 import org.springframework.context.ApplicationEvent;
-import splitmindq.caloriecounter.model.DailyIntake;
 import java.time.LocalDate;
+import lombok.Getter;
 
+@Getter
 public class DailyIntakeDeletedEvent extends ApplicationEvent {
     private final String email;
     private final LocalDate date;
+    private final Long intakeId;
 
-    public DailyIntakeDeletedEvent(DailyIntake source, String email, LocalDate date) {
+    public DailyIntakeDeletedEvent(Object source, String email, LocalDate date, Long intakeId) {
         super(source);
         this.email = email;
         this.date = date;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDate getDate() {
-        return date;
+        this.intakeId = intakeId;
     }
 }

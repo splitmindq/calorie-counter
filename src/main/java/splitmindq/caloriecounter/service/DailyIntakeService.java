@@ -14,6 +14,8 @@ import splitmindq.caloriecounter.requests.UpdateDailyIntakeRequest;
 public interface DailyIntakeService {
     List<DailyIntake> getAllDailyIntakes();
 
+    DailyNutritionDto getNutritionForIntake(Long intakeId);
+
     DailyIntake createDailyIntake(DailyIntakeRequest dailyIntakeRequest);
 
     DailyIntake getDailyIntakeById(Long id);

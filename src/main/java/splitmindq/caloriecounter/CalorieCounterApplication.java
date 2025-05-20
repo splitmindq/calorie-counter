@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
  * Главный класс приложения CalorieCounter.
  * Используется для запуска Spring Boot приложения.
  */
+
 @SpringBootApplication
 @EnableCaching
 public class CalorieCounterApplication {

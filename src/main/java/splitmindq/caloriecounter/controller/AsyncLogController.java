@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/logs")
 public class AsyncLogController {

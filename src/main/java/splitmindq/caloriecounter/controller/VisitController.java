@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import splitmindq.caloriecounter.service.VisitCounterService;
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/visits")
 public class VisitController {

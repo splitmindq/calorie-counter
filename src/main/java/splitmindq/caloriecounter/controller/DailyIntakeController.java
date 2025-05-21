@@ -171,6 +171,7 @@ public class DailyIntakeController {
                     content = @Content(schema = @Schema(implementation = DailyIntake.class))),
             @ApiResponse(responseCode = "404", description = "Запись не найдена")
     })
+
     public ResponseEntity<DailyIntake> getDailyIntake(@PathVariable Long id) {
         try {
             DailyIntake dailyIntake = dailyIntakeService.getDailyIntakeById(id);

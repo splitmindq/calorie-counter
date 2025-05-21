@@ -1,9 +1,12 @@
 package splitmindq.caloriecounter.service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import jakarta.annotation.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -100,20 +103,26 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
         dailyIntake.setUser(user);
         dailyIntake.setCreationDate(LocalDate.now());
 
+        // Объединяем дублирующиеся foodId
+        Map<Long, Double> foodWeightMap = new HashMap<>();
         dailyIntakeRequest.getFoodEntries().forEach(foodEntry -> {
-            Food food = foodRepository.findById(foodEntry.getFoodId())
-                    .orElseThrow(() -> new ResourceNotFoundException(FOOD_NOT_FOUND_MSG));
+            foodWeightMap.merge(foodEntry.getFoodId(), foodEntry.getWeight(), Double::sum);
+        });
 
+        foodWeightMap.forEach((foodId, weight) -> {
+            Food food = foodRepository.findById(foodId)
+                    .orElseThrow(() -> new ResourceNotFoundException(FOOD_NOT_FOUND_MSG));
             DailyIntakeFood dailyIntakeFood = new DailyIntakeFood();
             dailyIntakeFood.setDailyIntake(dailyIntake);
             dailyIntakeFood.setFood(food);
-            dailyIntakeFood.setWeight(foodEntry.getWeight());
+            dailyIntakeFood.setWeight(weight);
             dailyIntake.getDailyIntakeFoods().add(dailyIntakeFood);
         });
 
         DailyIntake savedIntake = dailyIntakeRepository.save(dailyIntake);
         evictDailyIntakeCache(savedIntake);
-        log.info("Created daily intake with id={} for userId={}", savedIntake.getId(), user.getId());
+        log.info("Created daily intake with id={} for userId={}, food count={}",
+                savedIntake.getId(), user.getId(), savedIntake.getDailyIntakeFoods().size());
         return savedIntake;
     }
 
@@ -125,33 +134,100 @@ public class DailyIntakeServiceImpl implements DailyIntakeService {
         log.info("Retrieved daily intake with id={}", id);
         return intake;
     }
-
-    @Override
     @Transactional
     public void updateDailyIntake(Long id, UpdateDailyIntakeRequest request) {
         DailyIntake dailyIntake = dailyIntakeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(DAILY_INTAKE_NOT_FOUND_MSG));
 
-        dailyIntake.getDailyIntakeFoods().clear();
+        log.info("Updating daily intake id={} with foodIds={} and weights={}",
+                id, request.getFoodIds(), request.getWeights());
 
+        // Логируем текущие продукты
+        log.info("Current foods in daily intake id={}: {}", id,
+                dailyIntake.getDailyIntakeFoods().stream()
+                        .map(dif -> "foodId=" + dif.getFood().getId() + ", weight=" + dif.getWeight())
+                        .collect(Collectors.joining("; ")));
+
+        // Создаем карту новых продуктов из запроса: foodId -> weight
+        Map<Long, Double> newFoodWeightMap = new HashMap<>();
         for (int i = 0; i < request.getFoodIds().size(); i++) {
-            Long foodId = request.getFoodIds().get(i);
-            double weight = request.getWeights().get(i);
+            newFoodWeightMap.merge(request.getFoodIds().get(i), request.getWeights().get(i), Double::sum);
+        }
+        log.info("New food weight map: {}", newFoodWeightMap);
 
-            Food food = foodRepository.findById(foodId)
-                    .orElseThrow(() -> new ResourceNotFoundException(FOOD_NOT_FOUND_MSG));
+        // Подсчитываем количество продуктов до удаления
+        int initialSize = dailyIntake.getDailyIntakeFoods().size();
 
-            DailyIntakeFood dailyIntakeFood = new DailyIntakeFood();
-            dailyIntakeFood.setDailyIntake(dailyIntake);
-            dailyIntakeFood.setFood(food);
-            dailyIntakeFood.setWeight(weight);
-            dailyIntake.getDailyIntakeFoods().add(dailyIntakeFood);
+        // Удаляем продукты, которых нет в новом запросе
+        dailyIntake.getDailyIntakeFoods().removeIf(dif -> {
+            boolean shouldRemove = !newFoodWeightMap.containsKey(dif.getFood().getId());
+            if (shouldRemove) {
+                log.info("Removing foodId={} from daily intake id={}", dif.getFood().getId(), id);
+            }
+            return shouldRemove;
+        });
+
+        // Подсчитываем количество удаленных продуктов
+        int removedCount = initialSize - dailyIntake.getDailyIntakeFoods().size();
+        log.info("Removed {} foods from daily intake id={}", removedCount, id);
+
+        // Создаем карту текущих продуктов для быстрого доступа
+        Map<Long, DailyIntakeFood> currentFoods = dailyIntake.getDailyIntakeFoods().stream()
+                .collect(Collectors.toMap(
+                        dif -> dif.getFood().getId(),
+                        dif -> dif,
+                        (existing, replacement) -> existing // Если есть дубликаты, оставляем первый
+                ));
+
+        // Обновляем существующие продукты и добавляем новые
+        newFoodWeightMap.forEach((foodId, weight) -> {
+            DailyIntakeFood existingFood = currentFoods.get(foodId);
+            if (existingFood != null) {
+                // Обновляем вес существующего продукта
+                log.info("Updating weight for foodId={} to {}", foodId, weight);
+                existingFood.setWeight(weight);
+            } else {
+                // Добавляем новый продукт
+                log.info("Adding new foodId={} with weight={} to daily intake id={}", foodId, weight, id);
+                Food food = foodRepository.findById(foodId)
+                        .orElseThrow(() -> new ResourceNotFoundException(FOOD_NOT_FOUND_MSG));
+                DailyIntakeFood newDailyIntakeFood = new DailyIntakeFood();
+                newDailyIntakeFood.setDailyIntake(dailyIntake);
+                newDailyIntakeFood.setFood(food);
+                newDailyIntakeFood.setWeight(weight);
+                dailyIntake.getDailyIntakeFoods().add(newDailyIntakeFood);
+            }
+        });
+
+        // Сохраняем обновленный рацион
+        log.info("Saving daily intake id={} with {} foods", id, dailyIntake.getDailyIntakeFoods().size());
+        dailyIntakeRepository.save(dailyIntake);
+
+        // Инвалидируем и обновляем кэш
+        String email = dailyIntake.getUser() != null ? dailyIntake.getUser().getEmail() : null;
+        LocalDate date = dailyIntake.getCreationDate();
+        if (email != null && date != null) {
+            // Инвалидируем старые данные
+            evictDailyIntakeCache(dailyIntake);
+
+            // Обновляем intakesWithDateCache
+            dailyIntakeCache.putIntakesWithDate(email, date, List.of(dailyIntake));
+
+            // Инвалидируем nutritionCache и intakeNutritionCache
+            dailyIntakeCache.evictNutritionData(email, date);
+            dailyIntakeCache.evictNutritionDataForIntake(id);
+
+            log.info("Updated cache for daily intake id={}, email={}, date={}", id, email, date);
+        } else {
+            log.warn("Cannot update cache: email={} or date={} is null for daily intake id={}", email, date, id);
         }
 
-        dailyIntakeRepository.save(dailyIntake);
-        evictDailyIntakeCache(dailyIntake);
-        log.info("Updated daily intake with id={}", id);
+        log.info("Updated daily intake id={}. Food count: {}", id, dailyIntake.getDailyIntakeFoods().size());
     }
+
+
+    // Предполагается, что метод evictDailyIntakeCache реализован где-то в сервисе
+
 
     @Override
     @Transactional

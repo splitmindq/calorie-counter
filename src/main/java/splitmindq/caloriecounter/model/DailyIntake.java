@@ -45,7 +45,7 @@ public class DailyIntake {
     @ToString.Exclude
     private User user;
 
-    @OneToMany(mappedBy = "dailyIntake", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "dailyIntake", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @ToString.Exclude
     private List<DailyIntakeFood> dailyIntakeFoods = new ArrayList<>();
 }

@@ -2285,3 +2285,874 @@
 2025-05-22 00:25:56 [http-nio-8080-exec-2] INFO  s.c.service.DailyIntakeServiceImpl - Retrieved cached nutrition data for email=123@mail.ru and date=2025-05-22: {calories=3033.0, fats=1.0, carbs=2.5, protein=0.2}
 2025-05-22 00:25:56 [http-nio-8080-exec-2] INFO  s.c.controller.DailyIntakeController - Retrieved nutrition data for email=123@mail.ru and date=2025-05-22: DailyNutritionDto(calories=3033.0, protein=0.2, fats=1.0, carbs=2.5)
 2025-05-22 00:25:56 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Метод DailyIntakeController.getNutrition(..) успешно выполнен. Результат: <200 OK OK,DailyNutritionDto(calories=3033.0, protein=0.2, fats=1.0, carbs=2.5),[]>
+2025-05-22 00:26:33 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:27:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:28:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:29:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:30:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:31:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:32:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:33:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:34:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:35:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:36:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:37:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:38:33 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:39:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:40:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:41:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:42:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:43:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:44:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:45:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:46:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:47:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:48:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:49:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:50:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:51:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:52:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:53:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:54:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:55:32 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:55:39 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-22 00:55:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-22 00:55:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-22 00:55:49 [main] INFO  s.c.CalorieCounterApplication - Starting CalorieCounterApplication using Java 23.0.1 with PID 3820 (C:\Projects\caloriecounter\caloriecounter\target\classes started by mzitr in C:\Projects\caloriecounter\caloriecounter)
+2025-05-22 00:55:49 [main] DEBUG s.c.CalorieCounterApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-22 00:55:49 [main] INFO  s.c.CalorieCounterApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-22 00:55:50 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-22 00:55:50 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 61 ms. Found 4 JPA repository interfaces.
+2025-05-22 00:55:51 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-22 00:55:51 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-22 00:55:51 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-22 00:55:51 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-22 00:55:51 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2212 ms
+2025-05-22 00:55:52 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-22 00:55:52 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-05-22 00:55:52 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-22 00:55:52 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-22 00:55:52 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-22 00:55:52 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@655909e2
+2025-05-22 00:55:52 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-22 00:55:52 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-22 00:55:53 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-22 00:55:54 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-22 00:55:54 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-22 00:55:55 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-22 00:55:56 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-22 00:55:56 [main] INFO  s.c.CalorieCounterApplication - Started CalorieCounterApplication in 8.361 seconds (process running for 10.159)
+2025-05-22 00:56:00 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-22 00:56:00 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-22 00:56:00 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-05-22 00:56:00 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 00:56:00 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 00:56:00 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=2, firstName=Мануха, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178), User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178)],[]>
+2025-05-22 00:56:00 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 00:56:00 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 00:56:00 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 00:56:00 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 00:56:01 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 00:56:01 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 00:56:01 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=2, firstName=Мануха, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178), User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178)],[]>
+2025-05-22 00:56:01 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 00:56:01 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 00:56:01 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 00:56:01 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 00:56:54 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:57:54 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 00:58:15 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-22 00:58:15 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-22 00:58:15 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-22 13:43:22 [main] INFO  s.c.CalorieCounterApplication - Starting CalorieCounterApplication using Java 23.0.1 with PID 7232 (C:\Projects\caloriecounter\caloriecounter\target\classes started by mzitr in C:\Projects\caloriecounter\caloriecounter)
+2025-05-22 13:43:22 [main] DEBUG s.c.CalorieCounterApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-22 13:43:22 [main] INFO  s.c.CalorieCounterApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-22 13:43:23 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-22 13:43:23 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 60 ms. Found 4 JPA repository interfaces.
+2025-05-22 13:43:24 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-22 13:43:24 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-22 13:43:24 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-22 13:43:24 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-22 13:43:24 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2059 ms
+2025-05-22 13:43:24 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-22 13:43:24 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-05-22 13:43:24 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-22 13:43:25 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-22 13:43:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-22 13:43:25 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1218e12
+2025-05-22 13:43:25 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-22 13:43:25 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-22 13:43:26 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-22 13:43:26 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-22 13:43:26 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-22 13:43:27 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-22 13:43:28 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-22 13:43:28 [main] INFO  s.c.CalorieCounterApplication - Started CalorieCounterApplication in 7.397 seconds (process running for 8.712)
+2025-05-22 13:43:48 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-22 13:43:48 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-22 13:43:48 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-05-22 13:43:48 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 13:43:49 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 13:43:49 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178), User(id=2, firstName=Манухаааа, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178)],[]>
+2025-05-22 13:43:49 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:43:49 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:43:49 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:43:49 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:43:49 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 13:43:49 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 13:43:49 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178), User(id=2, firstName=Манухаааа, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178)],[]>
+2025-05-22 13:43:49 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:43:49 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:43:49 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:43:49 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:43:55 [http-nio-8080-exec-5] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:43:55 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:43:55 [http-nio-8080-exec-5] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:43:55 [http-nio-8080-exec-3] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:43:55 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:43:55 [http-nio-8080-exec-3] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:44:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:44:35 [http-nio-8080-exec-6] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:44:35 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:44:35 [http-nio-8080-exec-6] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:44:35 [http-nio-8080-exec-4] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:44:35 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:44:35 [http-nio-8080-exec-4] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:44:52 [http-nio-8080-exec-8] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:44:52 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:44:52 [http-nio-8080-exec-8] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:44:52 [http-nio-8080-exec-10] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:44:52 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:44:52 [http-nio-8080-exec-10] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:45:05 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 13:45:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 13:45:05 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178), User(id=2, firstName=Манухаааа, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178)],[]>
+2025-05-22 13:45:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:45:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:45:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:45:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:45:05 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 13:45:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 13:45:05 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178), User(id=2, firstName=Манухаааа, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178)],[]>
+2025-05-22 13:45:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:45:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 13:45:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:45:05 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 13:45:06 [http-nio-8080-exec-5] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:45:06 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:45:06 [http-nio-8080-exec-5] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:45:06 [http-nio-8080-exec-3] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:45:06 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:45:06 [http-nio-8080-exec-3] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:45:13 [http-nio-8080-exec-6] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:45:13 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:45:13 [http-nio-8080-exec-6] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:45:19 [http-nio-8080-exec-4] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:45:19 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:45:19 [http-nio-8080-exec-4] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:45:19 [http-nio-8080-exec-9] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:45:19 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:45:19 [http-nio-8080-exec-9] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:45:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:46:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:47:25 [http-nio-8080-exec-8] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:47:25 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:47:25 [http-nio-8080-exec-8] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:47:25 [http-nio-8080-exec-10] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 13:47:25 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 13:47:25 [http-nio-8080-exec-10] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 13:47:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:48:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:49:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:50:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:51:26 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup
+2025-05-22 13:51:55 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-22 13:51:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-22 13:51:55 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-22 14:26:13 [main] INFO  s.c.CalorieCounterApplication - Starting CalorieCounterApplication using Java 23.0.1 with PID 20752 (C:\Projects\caloriecounter\caloriecounter\target\classes started by mzitr in C:\Projects\caloriecounter\caloriecounter)
+2025-05-22 14:26:13 [main] DEBUG s.c.CalorieCounterApplication - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-05-22 14:26:13 [main] INFO  s.c.CalorieCounterApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-22 14:26:14 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-22 14:26:14 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 51 ms. Found 4 JPA repository interfaces.
+2025-05-22 14:26:15 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-05-22 14:26:15 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-22 14:26:15 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.20]
+2025-05-22 14:26:15 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-22 14:26:15 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1768 ms
+2025-05-22 14:26:15 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-22 14:26:15 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-05-22 14:26:15 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-22 14:26:16 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-22 14:26:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-22 14:26:16 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@655909e2
+2025-05-22 14:26:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-22 14:26:16 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-22 14:26:17 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-22 14:26:17 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-22 14:26:17 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-22 14:26:18 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-22 14:26:19 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-05-22 14:26:19 [main] INFO  s.c.CalorieCounterApplication - Started CalorieCounterApplication in 6.328 seconds (process running for 7.936)
+2025-05-22 14:26:23 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-22 14:26:23 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-22 14:26:23 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-22 14:26:23 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 14:26:23 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 14:26:23 [http-nio-8080-exec-1] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178), User(id=2, firstName=Манухаааа, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178)],[]>
+2025-05-22 14:26:23 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 14:26:23 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 14:26:23 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 14:26:23 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 14:26:23 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: UserController.findAllUsers() с аргументами: []
+2025-05-22 14:26:23 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.age,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.gender,
+        u1_0.height,
+        u1_0.last_name,
+        u1_0.weight 
+    from
+        users u1_0
+2025-05-22 14:26:23 [http-nio-8080-exec-2] INFO  s.caloriecounter.log.LoggingAspect - Метод UserController.findAllUsers() успешно выполнен. Результат: <200 OK OK,[User(id=1, firstName=Даниил, lastName=Шорец, age=19, gender=MALE, email=mzitraks@mail.ru, weight=69, height=178), User(id=2, firstName=Манухаааа, lastName=Мануха, age=19, gender=MALE, email=123@mail.ru, weight=100, height=178)],[]>
+2025-05-22 14:26:23 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 14:26:23 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        di1_0.user_id,
+        di1_0.id,
+        di1_0.created_at 
+    from
+        daily_intakes di1_0 
+    where
+        di1_0.user_id=?
+2025-05-22 14:26:23 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 14:26:23 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        dif1_0.daily_intake_id,
+        dif1_0.id,
+        dif1_0.food_id,
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein,
+        dif1_0.weight 
+    from
+        daily_intake_food dif1_0 
+    left join
+        foods f1_0 
+            on f1_0.id=dif1_0.food_id 
+    where
+        dif1_0.daily_intake_id=?
+2025-05-22 14:26:31 [http-nio-8080-exec-3] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 14:26:31 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 14:26:31 [http-nio-8080-exec-3] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 14:26:31 [http-nio-8080-exec-4] INFO  s.caloriecounter.log.LoggingAspect - Вызов метода: FoodController.getFoods() с аргументами: []
+2025-05-22 14:26:31 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        f1_0.id,
+        f1_0.calories,
+        f1_0.carbs,
+        f1_0.fats,
+        f1_0.name,
+        f1_0.protein 
+    from
+        foods f1_0
+2025-05-22 14:26:31 [http-nio-8080-exec-4] INFO  s.caloriecounter.log.LoggingAspect - Метод FoodController.getFoods() успешно выполнен. Результат: <200 OK OK,[Food(id=1, name=Водка, calories=300.0, protein=0.0, fats=0.0, carbs=0.0), Food(id=2, name=Хлеб черный, calories=300.0, protein=2.0, fats=10.0, carbs=25.0), Food(id=3, name=Свининка, calories=400.0, protein=12.0, fats=20.0, carbs=30.0)],[]>
+2025-05-22 14:27:17 [pool-2-thread-1] DEBUG s.c.cache.DailyIntakeCache - Performed cache cleanup

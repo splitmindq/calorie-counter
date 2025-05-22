@@ -1,20 +1,20 @@
-# Используем базовый образ с Java (выберите версию, соответствующую вашему проекту)
-# Например, для Java 17
-FROM openjdk:17-jdk-slim
 
-# Устанавливаем рабочую директорию внутри контейнера
+FROM maven:3.8.5-openjdk-17 AS build
+
 WORKDIR /app
 
-# Копируем собранный JAR-файл вашего приложения в контейнер
-# Замените 'target/your-app-name.jar' на актуальный путь и имя вашего JAR-файла
-COPY target/caloriecounter-0.0.1-SNAPSHOT.jar app.jar
+COPY pom.xml .
+COPY src ./src
 
-# Указываем порт, который ваше Spring Boot приложение слушает (обычно 8080)
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY --from=build /app/target/caloriecounter-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
 
-# Команда для запуска вашего приложения при старте контейнера
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# Опционально: можно передавать профили Spring или другие аргументы JVM
-# ENV SPRING_PROFILES_ACTIVE=docker
-# ENTRYPOINT ["java", "-Dspring.profiles.active=docker", "-jar", "app.jar"]

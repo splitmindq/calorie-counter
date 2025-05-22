@@ -47,7 +47,7 @@ const UserForm = ({ visible, onCreate, onCancel, initialData }) => {
                         >
                             <Input
                                 size="middle"
-                                defaultValue={initialData ? initialData.firstName : "ТЕСТ ИМЕНИ"}
+                                defaultValue={initialData ? initialData.firstName : ""}
                             />
                         </Form.Item>
                     </Col>

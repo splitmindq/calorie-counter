@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Form, Select, Button, InputNumber, Space, Row, Col, message, Input } from 'antd'; // Добавил Input для скрытого поля userId
+import { Modal, Form, Select, Button, InputNumber, Space, Row, Col, message, Input } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { getFoods } from '../api';
 
@@ -17,7 +17,6 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
                     setFoods(foodsResponse.data || []);
                 } catch (error) {
                     message.error('Ошибка загрузки продуктов');
-                    console.error("Error fetching foods", error);
                 } finally {
                     setLoadingFoods(false);
                 }
@@ -28,7 +27,7 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
 
     useEffect(() => {
         if (visible) {
-            if (initialData && initialData.id) { // Убедимся, что initialData существует и имеет id (редактирование)
+            if (initialData && initialData.id) {
                 const foodEntries = initialData.dailyIntakeFoods && Array.isArray(initialData.dailyIntakeFoods)
                     ? initialData.dailyIntakeFoods
                         .filter(dif => dif && dif.food)
@@ -38,26 +37,17 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
                         }))
                     : [];
 
-                // userId для редактируемого рациона берется из initialData.user.id
-                // initialData приходит из UsersPage, где он берется из record.dailyIntakes,
-                // который должен содержать user (согласно вашей структуре JSON от /users)
                 const currentUserId = initialData.user ? initialData.user.id : null;
-
 
                 form.setFieldsValue({
                     userId: currentUserId,
                     foodEntries: foodEntries.length > 0 ? foodEntries : [{ foodId: undefined, weight: undefined }],
                 });
 
-                if (!currentUserId) { // Если user не пришел с initialData для рациона
-                    message.warning("Данные пользователя для этого рациона не были загружены с рационом. Проверьте структуру данных от API /users.");
-                    console.warn("InitialData for editing intake is missing user object:", initialData);
+                if (!currentUserId) {
+                    message.warning("Данные пользователя не загружены.");
                 }
-                if (initialData.dailyIntakeFoods && foodEntries.length !== initialData.dailyIntakeFoods.length) {
-                    message.warning("Некоторые продукты в рационе не были загружены корректно. Пожалуйста, проверьте ответ API.");
-                }
-
-            } else { // Создание нового рациона
+            } else {
                 form.resetFields();
                 form.setFieldsValue({
                     userId: userIdForNewIntake,
@@ -66,7 +56,6 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
             }
         }
     }, [initialData, form, visible, userIdForNewIntake]);
-
 
     const handleFormSubmit = () => {
         form.validateFields()
@@ -80,16 +69,7 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
                     message.error('Все продукты должны быть выбраны и иметь вес больше 0.');
                     return;
                 }
-                // console.log("Submitting values:", values); // Для отладки
                 onCreate(values);
-                // form.resetFields(); // Сбрасываем после успешной отправки
-                //  if (!initialData) {
-                //     form.setFieldsValue({
-                //         userId: userIdForNewIntake,
-                //         foodEntries: [{ foodId: undefined, weight: undefined }]
-                //     });
-                // }
-                // Сброс формы и закрытие модального окна управляется из UsersPage после успешного onCreate
             })
             .catch(info => {
                 console.log('Validate Failed:', info);
@@ -102,24 +82,20 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
             title={initialData ? "Редактировать рацион" : "Создать рацион"}
             okText={initialData ? "Сохранить" : "Создать"}
             cancelText="Отмена"
-            width={800}
-            onCancel={() => {
-                // form.resetFields(); // Можно сбрасывать здесь или при закрытии модалки из UsersPage
-                onCancel();
-            }}
+            width={600} // Уменьшена ширина модального окна
+            onCancel={onCancel}
             onOk={handleFormSubmit}
-            destroyOnClose // Важно для корректного сброса состояния формы при повторном открытии
+            destroyOnClose
         >
-            <Form form={form} layout="vertical" name="daily_intake_form_modal" initialValues={{ foodEntries: [{ foodId: undefined, weight: undefined }] }}>
+            <Form form={form} layout="vertical" name="daily_intake_form_modal">
                 <Form.Item name="userId" hidden>
-                    {/* Используем Input, а не InputNumber, т.к. это просто ID */}
                     <Input />
                 </Form.Item>
 
                 {initialData && initialData.user && (
                     <p><strong>Пользователь:</strong> {initialData.user.firstName} {initialData.user.lastName} (нельзя изменить)</p>
                 )}
-                {!initialData && userIdForNewIntake && form.getFieldValue('userId') && ( // Проверяем, что userId установлен
+                {!initialData && userIdForNewIntake && form.getFieldValue('userId') && (
                     <p><strong>Рацион для пользователя ID:</strong> {form.getFieldValue('userId')}</p>
                 )}
 
@@ -128,7 +104,7 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
                         <>
                             {fields.map(({ key, name, ...restField }) => (
                                 <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
-                                    <Row gutter={8} style={{ width: '100%' }}>
+                                    <Row gutter={8} style={{ width: '109%' }}>
                                         <Col flex="auto">
                                             <Form.Item
                                                 {...restField}
@@ -166,7 +142,13 @@ const DailyIntakeForm = ({ visible, onCreate, onCancel, initialData, userIdForNe
                                 </Space>
                             ))}
                             <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                <Button
+                                    type="dashed"
+                                    onClick={() => add()}
+                                    block
+                                    icon={<PlusOutlined />}
+                                    style={{ width: '550px' }} // Уменьшена ширина кнопки
+                                >
                                     Добавить продукт
                                 </Button>
                             </Form.Item>
